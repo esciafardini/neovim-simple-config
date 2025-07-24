@@ -9,7 +9,6 @@ return {
         null_ls.builtins.diagnostics.erb_lint,
         null_ls.builtins.diagnostics.rubocop,
         null_ls.builtins.formatting.rubocop,
-        -- null_ls.builtins.diagnostics.clj_kondo,
       },
     })
     vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {})
