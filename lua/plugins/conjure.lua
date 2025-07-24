@@ -1,1 +1,8 @@
-return { "Olical/conjure" }
+return {
+  "Olical/conjure",
+  config = function()
+    vim.keymap.set('n', '<leader>cs', ':ConjureConnect local.aclaimant.com 7000<cr>')
+    vim.keymap.set('n', '<leader>cj', ':ConjureConnect local.aclaimant.com 7001<cr>')
+    vim.keymap.set('n', '<leader>ca', ':ConjureConnect local.aclaimant.com 7002<cr>')
+  end
+}

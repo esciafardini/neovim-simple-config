@@ -1,11 +1,11 @@
 return {
-  "nvim-treesitter/nvim-treesitter", 
-  branch = 'master', 
-  lazy = false, 
+  "nvim-treesitter/nvim-treesitter",
+  branch = 'master',
+  lazy = false,
   build = ":TSUpdate",
   opts = {
     -- A list of parser names, or "all" (the listed parsers MUST always be installed)
-    ensure_installed = { "clojure", "lua", "vim", "vimdoc", "html", "javascript"},
+    ensure_installed = { "clojure", "lua", "vim", "vimdoc", "html", "javascript" },
 
     -- Install parsers synchronously (only applied to `ensure_installed`)
     sync_install = false,

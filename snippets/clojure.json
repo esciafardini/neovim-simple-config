@@ -1,0 +1,37 @@
+{
+  "spy": {
+    "prefix": "spy",
+    "body": [
+      "(log/spy $1)"
+    ],
+    "description": "SPY ON SOMETHING"
+  },
+  "un-namespace": {
+    "prefix": "nx",
+    "body": [
+      "(ns-unmap *ns* '$1)"
+    ],
+    "description": "un-namespace something"
+  },
+  "transaction": {
+    "prefix": "tx",
+    "body": [
+      "(comment\n(do\n\t(require '[aclaimant.services.core.db.customer-schema.fns :as fns]\n\t         '[aclaimant.services.core.db.customer-schema :as customer-schema])\n\t\t(fns/transaction-in-schema \"$1\"\n\t\t  ($2))))"
+    ],
+    "description": "For that sweet sweet transaction"
+  },
+  "pretty": {
+    "prefix": "px",
+    "body": [
+      "(do\n  (require '[clojure.edn :as edn])\n  (edn/read-string (slurp \"$1.edn\")))"
+    ],
+    "description": "Pretty print what you saved in a file"
+  },
+  "comment": {
+    "prefix": "cx",
+    "body": [
+      "(comment\n  $1)"
+    ],
+    "description": "A sick comment block"
+  }
+}
