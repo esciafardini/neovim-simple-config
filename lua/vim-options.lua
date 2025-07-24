@@ -7,6 +7,7 @@ vim.cmd("set shiftwidth=2")
 vim.cmd("set number")
 vim.cmd("set cursorline")
 vim.cmd("set cursorlineopt=number")
+vim.cmd("set clipboard+=unnamedplus")
 
 -- Conjure Override K setting
 vim.g["conjure#mapping#doc_word"] = "gk"
