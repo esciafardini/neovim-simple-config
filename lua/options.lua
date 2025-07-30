@@ -1,16 +1,20 @@
 -- Generic vim settings
-vim.cmd("set expandtab")
-vim.cmd("set tabstop=2")
-vim.cmd("set softtabstop=2")
-vim.cmd("set shiftwidth=2")
-vim.cmd("set shiftwidth=2")
-vim.cmd("set number")
-vim.cmd("set cursorline")
-vim.cmd("set cursorlineopt=number")
-vim.cmd("set clipboard+=unnamedplus")
-
--- Conjure Override K setting
-vim.g["conjure#mapping#doc_word"] = "gk"
+vim.opt.clipboard = "unnamedplus"
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+vim.opt.ignorecase = true
+vim.opt.inccommand = "split"
+vim.opt.expandtab = true
+vim.opt.number = true
+vim.opt.scrolloff = 999
+vim.opt.shiftwidth = 2
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.tabstop = 2
+vim.opt.termguicolors = true
+vim.opt.undofile = true
+vim.opt.virtualedit = "block"
+vim.opt.wrap = false
 
 -- Erase all white space on save:
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
