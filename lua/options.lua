@@ -1,4 +1,8 @@
--- Generic vim settings
+-- Globals
+vim.g.mapleader = " "
+vim.g.maplocalleader = ","
+
+-- Opts
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
@@ -35,3 +39,12 @@ vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block updwards" }
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", " h", ":nohl<CR>", { desc = "Unhighlight" })
+
+-- Macros
+local daff_macro = ",wlog/daff "
+vim.fn.setreg("d", daff_macro)
+vim.keymap.set("n", ",d", "@d")
+
+vim.cmd[[imap zk <Esc>]]
+vim.cmd[[let @s = ",wlog/spyzk("]]
+vim.cmd[[let @d = ",wlog/daff"]]
