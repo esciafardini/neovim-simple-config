@@ -1,15 +1,8 @@
 {
-  "name": "nvim-snippets",
-  "author": "Ted Cage",
-  "engines": {
-    "vscode": "^1.11.0"
-  },
+  "name": "personal-snippets",
   "contributes": {
     "snippets": [
-      {
-        "language": "clojure",
-        "path": "./clojure.json"
-      }
+      { "language": "clojure", "path": "./clojure.json" }
     ]
   }
 }

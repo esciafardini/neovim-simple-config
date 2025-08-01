@@ -10,7 +10,7 @@ vim.opt.ignorecase = true
 vim.opt.inccommand = "split"
 vim.opt.expandtab = true
 vim.opt.number = true
-vim.opt.scrolloff = 999
+vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 2
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -20,7 +20,7 @@ vim.opt.undofile = true
 vim.opt.virtualedit = "block"
 vim.opt.wrap = false
 
--- Erase all white space on save:
+-- Erase White Space On Save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = { "*" },
   callback = function()
@@ -28,7 +28,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
--- Prevent bad formatting
+-- Prevent Bad Formatting
 vim.cmd([[
 autocmd FileType clojure let g:clojure_fuzzy_indent_patterns+=['^dofor$', '^GET$', '^POST$', '^PUT$', '^PATCH$', '^DELETE$', '^ANY$']
 ]])
@@ -41,10 +41,6 @@ vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", " h", ":nohl<CR>", { desc = "Unhighlight" })
 
 -- Macros
-local daff_macro = ",wlog/daff "
-vim.fn.setreg("d", daff_macro)
-vim.keymap.set("n", ",d", "@d")
-
 vim.cmd[[imap zk <Esc>]]
 vim.cmd[[let @s = ",wlog/spyzk("]]
 vim.cmd[[let @d = ",wlog/daff"]]
