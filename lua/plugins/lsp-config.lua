@@ -2,7 +2,14 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      vim.diagnostic.config({ virtual_text = true })
+
+      -- Diagnostics
+      vim.diagnostic.config({
+        virtual_text = true ,
+        virtual_lines = false,
+      })
+
+      -- Keymaps
       vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>')
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "gr", vim.lsp.buf.references, {})

@@ -1,5 +1,5 @@
 {
-  "name": "personal-snippets",
+  "name": "$$Todd Cage Snippetzz$$",
   "contributes": {
     "snippets": [
       { "language": "clojure", "path": "./clojure.json" }
