@@ -1,8 +1,11 @@
 {
-  "name": "$$Todd Cage Snippetzz$$",
+  "name": "Todd Cage Snippets",
   "contributes": {
     "snippets": [
-      { "language": "clojure", "path": "./clojure.json" }
+      {
+        "language": "clojure",
+        "path": "./clojure.json"
+      }
     ]
   }
 }

@@ -5,6 +5,8 @@ return {
     opts = {
       library = {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+        { path = "snacks.nvim",        words = { "Snacks" } },
+        { path = "lazy.nvim",          words = { "LazyVim" } },
       },
     },
   },
@@ -15,8 +17,8 @@ return {
     opts = {
       keymap = {
         preset = "enter",
-        ["<Up>"] = { "select_prev", "fallback" },
-        ["<Tab>"] = { "select_next", "fallback" },
+        ["<C-b>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
       },
       appearance = {
         nerd_font_variant = "mono"

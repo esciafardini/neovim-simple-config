@@ -66,7 +66,7 @@ return {
     picker = { enabled = false },
     notifier = { enabled = false },
     quickfile = { enabled = false },
-    scope = { enabled = true },
+    scope = { enabled = false },
     scroll = { enabled = true },
     statuscolumn = { enabled = false },
     words = { enabled = false },

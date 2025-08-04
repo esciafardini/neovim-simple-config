@@ -2,14 +2,10 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-
-      -- Diagnostics
       vim.diagnostic.config({
-        virtual_text = true ,
+        virtual_text = true,
         virtual_lines = false,
       })
-
-      -- Keymaps
       vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>')
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
@@ -26,10 +22,12 @@ return {
   },
   {
     "mason-org/mason-lspconfig.nvim",
-    opts = {},
+    opts = {
+      ensure_installed = { "lua_ls", "clojure_lsp", "clangd", "jsonls", "ts_ls" },
+    },
     dependencies = {
-      { "mason-org/mason.nvim",  opts = {} },
-      { "neovim/nvim-lspconfig", opts = {} },
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
     },
   },
 }

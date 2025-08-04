@@ -41,6 +41,11 @@ vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", " h", ":nohl<CR>", { desc = "Unhighlight" })
 
 -- Macros
-vim.cmd[[imap zk <Esc>]]
-vim.cmd[[let @s = ",wlog/spyzk("]]
-vim.cmd[[let @d = ",wlog/daff"]]
+vim.cmd [[imap zk <Esc>]]
+
+-- WHOLE surround
+vim.cmd [[let @q = "v%S"]]
+vim.keymap.set("n", ",w", "@q", { desc = "Unhighlight" })
+-- SINGLE surround
+vim.cmd [[let @r = "ssiw"]]
+vim.keymap.set("n", ",s", "@r", { desc = "Unhighlight" })
