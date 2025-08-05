@@ -43,9 +43,15 @@ vim.keymap.set("n", " h", ":nohl<CR>", { desc = "Unhighlight" })
 -- Macros
 vim.cmd [[imap zk <Esc>]]
 
--- WHOLE surround
+-- Surround
 vim.cmd [[let @q = "v%S"]]
-vim.keymap.set("n", ",w", "@q", { desc = "Unhighlight" })
--- SINGLE surround
+vim.keymap.set("n", ",f", "@q", { desc = "Surround Form" })
+vim.keymap.set("n", ",w", "@q)", { desc = "Surround Form Parens" })
+vim.keymap.set("n", ",]", "@q]", { desc = "Surround Form Brackets" })
+vim.keymap.set("n", ",}", "@q}", { desc = "Surround Form Curly Braces" })
+vim.keymap.set("n", ",(", "@q)i <Left>", { desc = "Surround Form Parens To Insert" })
+vim.keymap.set("n", ",)", "@q)i <Left>", { desc = "Surround Form Parens To Insert" })
+vim.keymap.set("n", ",[", "@q]i <Left>", { desc = "Surround Form Brackets To Insert" })
+vim.keymap.set("n", ",{", "@q}i <Left>", { desc = "Surround Form Curly Braces To Insert" })
 vim.cmd [[let @r = "ssiw"]]
-vim.keymap.set("n", ",s", "@r", { desc = "Unhighlight" })
+vim.keymap.set("n", ",s", "@r", { desc = "Surround Single Word" })
