@@ -12,18 +12,14 @@ return {
     local neotree = require("neo-tree")
     neotree.setup({
       event_handlers = {
-
         {
           event = "file_open_requested",
           handler = function()
-            -- auto close
-            -- vim.cmd("Neotree close")
-            -- OR
             require("neo-tree.command").execute({ action = "close" })
           end,
         },
       },
     })
-    vim.keymap.set("n", "<leader>e", ":Neotree filesystem reveal left<cr>")
+    vim.keymap.set("n", "<leader>e", ":Neotree filesystem reveal left<cr>", { desc = "File Explorer" })
   end,
 }

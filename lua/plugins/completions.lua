@@ -16,7 +16,7 @@ return {
     version = "1.*",
     opts = {
       keymap = {
-        preset = "enter",
+        preset = "default",
         ["<C-b>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
       },

@@ -68,17 +68,16 @@ return {
     'echasnovski/mini.nvim',
     version = '*',
     config = function()
-      require('mini.surround').setup(
-        {
-          mappings = {
-            --ssiw
-            add = 'ss',            -- Add surrounding in Normal and Visual modes
-            delete = 'ds',         -- Delete surrounding
-            replace = 'cs',        -- Replace surrounding
-            update_n_lines = 'sn', -- Update `n_lines`
-          },
-          vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true }),
-        })
-    end
+      require('mini.surround').setup
+      {
+        mappings = {
+          add = 'sa',            -- Add surrounding in Normal and Visual modes
+          delete = 'ds',         -- Delete surrounding
+          replace = 'cs',        -- Replace surrounding
+          update_n_lines = 'sn', -- Update `n_lines`
+        },
+        vim.keymap.set('x', 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true }),
+      }
+    end,
   },
 }

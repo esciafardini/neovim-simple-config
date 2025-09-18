@@ -39,6 +39,7 @@ return {
             node_incremental = "<leader>si",  --scope increase
             node_decremental = "<leader>sd",  --scope decrease
             scope_incremental = "<leader>sc", --scope creep
+
           },
         },
       })
