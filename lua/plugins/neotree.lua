@@ -7,7 +7,6 @@ return {
     "MunifTanjim/nui.nvim",
   },
   lazy = false,
-  opts = {},
   config = function()
     local neotree = require("neo-tree")
     neotree.setup({

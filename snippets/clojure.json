@@ -18,11 +18,9 @@
     "body": [
       "(comment",
       " (do",
-      "  (require",
-      "   '[aclaimant.services.core.db.customer-schema.fns :as fns]",
-      "   '[aclaimant.services.core.db.customer-schema :as customer-schema])",
-      "     (fns/transaction-in-schema \"$1\"",
-      "       ($2))))"
+      "  (require '[aclaimant.services.core.db.customer-schema.fns :as fns])",
+      "   (fns/transaction-in-schema \"$1\"",
+      "    ($2))))"
     ],
     "description": "For that sweet sweet transaction"
   },

@@ -42,4 +42,4 @@ vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" 
 vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block updwards" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
-vim.keymap.set("n", " h", ":nohl<CR>", { desc = "Unhighlight" })
+vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
