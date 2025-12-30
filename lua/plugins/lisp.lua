@@ -18,15 +18,22 @@ return {
 
       vim.keymap.set("n", "<localleader>w", function()
         paredit.api.wrap_element_under_cursor("(", ")")
+        vim.cmd("normal! F(")
       end, { desc = "Wrap in parens" })
 
-      vim.keymap.set("n", "<localleader>[", function()
+      local function wrap_brackets()
         paredit.api.wrap_element_under_cursor("[", "]")
-      end, { desc = "Wrap in brackets" })
+        vim.cmd("normal! F[")
+      end
+      vim.keymap.set("n", "<localleader>[", wrap_brackets, { desc = "Wrap in brackets" })
+      vim.keymap.set("n", "<localleader>]", wrap_brackets, { desc = "Wrap in brackets" })
 
-      vim.keymap.set("n", "<localleader>{", function()
+      local function wrap_braces()
         paredit.api.wrap_element_under_cursor("{", "}")
-      end, { desc = "Wrap in braces" })
+        vim.cmd("normal! F{")
+      end
+      vim.keymap.set("n", "<localleader>{", wrap_braces, { desc = "Wrap in braces" })
+      vim.keymap.set("n", "<localleader>}", wrap_braces, { desc = "Wrap in braces" })
 
       vim.keymap.set("n", "<leader>ls", function()
         paredit.api.wrap_element_under_cursor("(", ")")
