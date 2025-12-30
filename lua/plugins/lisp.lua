@@ -15,6 +15,18 @@ return {
     "julienvincent/nvim-paredit",
     config = function()
       local paredit = require("nvim-paredit")
+
+      vim.keymap.set("n", "<leader>ls", function()
+        paredit.api.wrap_element_under_cursor("(", ")")
+        vim.cmd("normal! F(alog/spy ")
+      end, { desc = "Log Spy" })
+
+      vim.keymap.set("n", "<leader>ld", function()
+        paredit.api.wrap_element_under_cursor("(", ")")
+        vim.cmd("normal! F(alog/daff x ")
+        vim.cmd("normal! Fx")
+      end, { desc = "Log Daff" })
+
       paredit.setup({
         keys = {
           -- Remove Surrounding

@@ -12,7 +12,6 @@ return {
       vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { desc = "Code Actions" })
       vim.keymap.set({ "n" }, "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
       vim.keymap.set({ "n" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format File" })
-      vim.keymap.set("n", " ls", "@q)i <Left>log/spy<Esc>B", { desc = "Log Spy" })
     end,
   },
   {
