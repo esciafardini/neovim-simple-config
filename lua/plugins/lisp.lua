@@ -20,6 +20,14 @@ return {
         paredit.api.wrap_element_under_cursor("(", ")")
       end, { desc = "Wrap in parens" })
 
+      vim.keymap.set("n", "<localleader>[", function()
+        paredit.api.wrap_element_under_cursor("[", "]")
+      end, { desc = "Wrap in brackets" })
+
+      vim.keymap.set("n", "<localleader>{", function()
+        paredit.api.wrap_element_under_cursor("{", "}")
+      end, { desc = "Wrap in braces" })
+
       vim.keymap.set("n", "<leader>ls", function()
         paredit.api.wrap_element_under_cursor("(", ")")
         vim.cmd("normal! F(alog/spy ")
