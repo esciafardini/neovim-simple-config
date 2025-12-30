@@ -1,5 +1,15 @@
 return {
   {
+    "L3MON4D3/LuaSnip",
+    version = "v2.*",
+    build = "make install_jsregexp",
+    config = function()
+      local ls = require("luasnip")
+      require("luasnip.loaders.from_vscode").lazy_load()
+      require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
+    end,
+  },
+  {
     "folke/lazydev.nvim",
     ft = "lua",
     opts = {
@@ -12,11 +22,13 @@ return {
   },
   {
     "saghen/blink.cmp",
-    dependencies = { "rafamadriz/friendly-snippets" },
+    dependencies = { "rafamadriz/friendly-snippets", "L3MON4D3/LuaSnip" },
     version = "1.*",
     opts = {
+      snippets = { preset = "luasnip" },
       keymap = {
         preset = "default",
+        ["<CR>"] = { "accept", "fallback" },
         ["<C-b>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
       },

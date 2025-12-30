@@ -19,12 +19,17 @@ vim.opt.undofile = true
 vim.opt.virtualedit = "block"
 vim.opt.wrap = false
 
--- Erase White Space On Save
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  pattern = { "*" },
-  callback = function()
-    vim.cmd([[%s/\s\+$//e]])
-  end,
+-- Strip trailing whitespace while preserving cursor position
+local function strip_trailing_whitespace()
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0)) -- save cursor
+  vim.cmd([[%s/\s\+$//e]])
+  vim.api.nvim_win_set_cursor(0, { row, col }) -- restore cursor
+end
+
+-- Autocmd on BufWritePre
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  callback = strip_trailing_whitespace,
 })
 
 -- Prevent Bad Formatting
