@@ -16,6 +16,10 @@ return {
     config = function()
       local paredit = require("nvim-paredit")
 
+      vim.keymap.set("n", "<localleader>w", function()
+        paredit.api.wrap_element_under_cursor("(", ")")
+      end, { desc = "Wrap in parens" })
+
       vim.keymap.set("n", "<leader>ls", function()
         paredit.api.wrap_element_under_cursor("(", ")")
         vim.cmd("normal! F(alog/spy ")
