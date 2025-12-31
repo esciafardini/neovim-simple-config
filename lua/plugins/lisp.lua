@@ -33,7 +33,7 @@ return {
         paredit.api.wrap_element_under_cursor("{", "}")
         vim.cmd("normal! F{")
       end
-      vim.keymap.set("n", "<localleader>c", wrap_braces, { desc = "Wrap in braces" })
+      vim.keymap.set("n", "<localleader>m", wrap_braces, { desc = "Wrap in braces" })
       vim.keymap.set("n", "<localleader>{", wrap_braces, { desc = "Wrap in braces" })
       vim.keymap.set("n", "<localleader>}", wrap_braces, { desc = "Wrap in braces" })
 
