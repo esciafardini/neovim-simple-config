@@ -40,10 +40,19 @@ return {
         vim.cmd("normal! F(alog/spy ")
       end, { desc = "Log Spy" })
 
+      local function randomVarName()
+        local length = 3
+        local array = {}
+        for i = 1, length do
+          array[i] = string.char(math.random(97, 122))
+        end
+        return table.concat(array)
+      end
+
       vim.keymap.set("n", "<leader>ld", function()
         paredit.api.wrap_element_under_cursor("(", ")")
-        vim.cmd("normal! F(alog/daff x ")
-        vim.cmd("normal! Fx")
+        vim.cmd("normal! F(alog/daff " .. randomVarName() .. " ")
+        vim.cmd("normal! b")
       end, { desc = "Log Daff" })
 
       paredit.setup({
