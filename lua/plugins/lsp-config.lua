@@ -35,7 +35,6 @@ return {
         print("No form found")
       end, { desc = "Format form" })
 
-      vim.lsp.enable('clojure_lsp')
     end,
   },
   {
@@ -47,7 +46,7 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { "lua_ls", "clangd", "jsonls", "ts_ls" },
+      ensure_installed = { "clojure_lsp", "lua_ls", "clangd", "jsonls", "ts_ls" },
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
