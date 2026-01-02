@@ -12,6 +12,8 @@ return {
       vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, { desc = "Code Actions" })
       vim.keymap.set({ "n" }, "<leader>lr", vim.lsp.buf.rename, { desc = "Rename" })
       vim.keymap.set({ "n" }, "<leader>lf", vim.lsp.buf.format, { desc = "Format File" })
+
+      vim.lsp.enable('clojure_lsp')
     end,
   },
   {
@@ -23,7 +25,7 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { "lua_ls", "clojure_lsp", "clangd", "jsonls", "ts_ls" },
+      ensure_installed = { "lua_ls", "clangd", "jsonls", "ts_ls" },
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
