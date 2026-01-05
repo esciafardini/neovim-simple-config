@@ -1,6 +1,3 @@
--- Shim for deprecated function (telescope uses it)
-vim.tbl_islist = vim.islist
-
 -- Disable unused providers
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
