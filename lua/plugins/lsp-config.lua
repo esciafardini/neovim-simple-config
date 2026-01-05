@@ -21,7 +21,12 @@ return {
           vim.keymap.set("n", "<leader>lF", vim.lsp.buf.format, opts("Format File"))
           vim.keymap.set("n", "<leader>lf", function()
             local node = vim.treesitter.get_node()
-            local form_types = { "list_lit", "vec_lit", "map_lit", "set_lit", "anon_fn_lit" }
+            local form_types = {
+              -- handles common blocks in clojure, ruby, javascript (may need to add more later)
+              "object", "arrow_function", "do_block", "function_expression", "hash", "method", "block",
+              "function_declaration", "set_lit", "vec_lit", "function_definition", "table_constructor",
+              "map_lit", "anon_fn_lit", "list_lit", "array"
+            }
             while node do
               local node_type = node:type()
               for _, form_type in ipairs(form_types) do
@@ -29,7 +34,7 @@ return {
                   local start_row, start_col, end_row, end_col = node:range()
                   vim.lsp.buf.format({
                     range = {
-                      start = { start_row + 1, start_col },
+                      ["start"] = { start_row + 1, start_col },
                       ["end"] = { end_row + 1, end_col },
                     }
                   })
