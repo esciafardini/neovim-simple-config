@@ -6,7 +6,6 @@ return {
         virtual_text = true,
         virtual_lines = false,
       })
-
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(event)
           local opts = function(desc)
@@ -25,7 +24,7 @@ return {
               -- handles common blocks in clojure, ruby, javascript (may need to add more later)
               "object", "arrow_function", "do_block", "function_expression", "hash", "method", "block",
               "function_declaration", "set_lit", "vec_lit", "function_definition", "table_constructor",
-              "map_lit", "anon_fn_lit", "list_lit", "array"
+              "map_lit", "anon_fn_lit", "list_lit", "array", "body_statement"
             }
             while node do
               local node_type = node:type()
@@ -60,6 +59,14 @@ return {
     opts = {
       ensure_installed = { "clojure_lsp", "lua_ls", "clangd", "jsonls", "ts_ls", "ruby_lsp" },
     },
+    config = function(_, opts)
+      require("mason-lspconfig").setup(opts)
+      vim.lsp.config("ruby_lsp", {
+        init_options = {
+          formatter = "rubocop",
+        },
+      })
+    end,
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",

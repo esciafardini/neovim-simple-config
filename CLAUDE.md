@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a personal Neovim configuration using lazy.nvim for plugin management. The config is Clojure-focused with REPL-driven development support via Conjure.
 
+**Neovim Version**: 0.11+ (uses `vim.lsp.config` API, not deprecated `require('lspconfig')`)
+
 ## Architecture
 
 **Entry Point**: `init.lua` requires two modules:
@@ -43,9 +45,9 @@ return {
 
 ## LSP Setup
 
-Mason ensures these servers are installed: `lua_ls`, `clojure_lsp`, `clangd`, `jsonls`, `ts_ls`
+Mason ensures these servers are installed: `lua_ls`, `clojure_lsp`, `clangd`, `jsonls`, `ts_ls`, `ruby_lsp`
 
-LSP keymaps are attached on `LspAttach` event in `lsp-config.lua`.
+LSP keymaps are attached on `LspAttach` event in `lsp-config.lua`. Use `vim.lsp.config()` for server-specific settings (not `require('lspconfig')`).
 
 ## Clojure-Specific
 
