@@ -26,19 +26,6 @@ vim.opt.undofile = true
 vim.opt.virtualedit = "block"
 vim.opt.wrap = false
 
--- Strip trailing whitespace while preserving cursor position
-local function strip_trailing_whitespace()
-  local row, col = unpack(vim.api.nvim_win_get_cursor(0)) -- save cursor
-  vim.cmd([[%s/\s\+$//e]])
-  vim.api.nvim_win_set_cursor(0, { row, col }) -- restore cursor
-end
-
--- Autocmd on BufWritePre
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = strip_trailing_whitespace,
-})
-
 -- Prevent Bad Formatting
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "clojure",
@@ -51,7 +38,11 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Keymaps
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
 vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block updwards" })
+vim.keymap.set("v", "L", ":lua<CR>", { desc = "Move block updwards" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
+
+-- Commands
+vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})

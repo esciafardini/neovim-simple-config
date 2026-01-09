@@ -66,6 +66,11 @@ return {
           formatter = "rubocop",
         },
       })
+      vim.lsp.config("clojure_lsp", {
+        flags = {
+          debounce_text_changes = 500, -- lsp was lagging on keypress - not anymore :)
+        },
+      })
     end,
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },

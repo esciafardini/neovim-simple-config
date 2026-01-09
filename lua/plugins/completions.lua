@@ -4,7 +4,6 @@ return {
     version = "v2.*",
     build = "make install_jsregexp",
     config = function()
-      local ls = require("luasnip")
       require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
     end,
@@ -26,7 +25,7 @@ return {
       snippets = { preset = "luasnip" },
       keymap = {
         preset = "default",
-        ["<Tab>"] = { "accept", "fallback" },
+        ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
         ["<C-b>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
       },

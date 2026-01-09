@@ -1,0 +1,10 @@
+{
+  "inspect": {
+    "prefix": "ins",
+    "body": [
+      "local result = $1",
+      "print(vim.inspect(result))"
+    ],
+    "description": "Inspect a Lua value"
+  }
+}

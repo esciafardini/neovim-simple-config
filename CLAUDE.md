@@ -8,6 +8,8 @@ This is a personal Neovim configuration using lazy.nvim for plugin management. T
 
 **Neovim Version**: 0.11+ (uses `vim.lsp.config` API, not deprecated `require('lspconfig')`)
 
+**API Notes**: Use `vim.uv` for libuv bindings, not the deprecated `vim.loop`.
+
 ## Architecture
 
 **Entry Point**: `init.lua` requires two modules:

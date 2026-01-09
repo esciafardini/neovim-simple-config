@@ -19,10 +19,9 @@
       "(comment",
       "  (do",
       "    (require '[aclaimant.services.core.db.customer-schema.fns :as fns])",
-      "      (fns/transaction-in-schema \"$1\"",
-      "        ($2))))"
+      "      (fns/transaction-in-schema \"$1\" ($2))))"
     ],
-    "description": "For that sweet sweet transaction"
+    "description": "For that sweet transaction"
   },
   "pretty": {
     "prefix": "px",
