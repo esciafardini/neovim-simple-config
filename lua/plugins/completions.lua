@@ -4,11 +4,11 @@ return {
     version = "v2.*",
     build = "make install_jsregexp",
     config = function()
-      require("luasnip.loaders.from_vscode").lazy_load()
       require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
     end,
   },
   {
+    -- need this for ease nvim lua tinkering
     "folke/lazydev.nvim",
     ft = "lua",
     opts = {

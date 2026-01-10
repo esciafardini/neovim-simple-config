@@ -11,13 +11,13 @@ return {
           local opts = function(desc)
             return { buffer = event.buf, desc = desc }
           end
-
           vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>', opts("LSP Hover"))
           vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go To Definition"))
           vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Go To Reference"))
           vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts("Code Actions"))
           vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts("Rename"))
           vim.keymap.set("n", "<leader>lF", vim.lsp.buf.format, opts("Format File"))
+          -- format current form
           vim.keymap.set("n", "<leader>lf", function()
             local node = vim.treesitter.get_node()
             local form_types = {
