@@ -68,7 +68,7 @@ return {
       })
       vim.lsp.config("clojure_lsp", {
         flags = {
-          debounce_text_changes = 500, -- lsp was lagging on keypress - not anymore :)
+          debounce_text_changes = 1500, -- lsp was lagging on keypress - not anymore :)
         },
       })
     end,

@@ -29,9 +29,10 @@ vim.opt.wrap = false
 -- Prevent Bad Formatting
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "clojure",
-  callback = function ()
+  callback = function()
     local existing = vim.g.clojure_fuzzy_indent_patterns or {}
-    vim.g.clojure_fuzzy_indent_patterns = vim.list_extend(existing, { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
+    vim.g.clojure_fuzzy_indent_patterns = vim.list_extend(existing,
+      { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
   end
 })
 
@@ -43,6 +44,17 @@ vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
+vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
+
+-- Start screen keymap
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
+      vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
+    end
+  end
+})
 
 -- Commands
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
+vim.api.nvim_create_user_command("Wq", "wq", {})
