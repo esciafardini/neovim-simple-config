@@ -45,13 +45,20 @@ vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
 vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
+vim.keymap.set("n", "<leader>ac", function()
+  vim.cmd("Neotree position=float dir=" .. vim.fn.stdpath("config"))
+end, { desc = "Nvim Config" })
+
 
 -- Start screen keymap
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
+    -- replicating dashboard behavior without dashboard :)
     if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
       vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
       vim.keymap.set("n", "f", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Find files" })
+      vim.keymap.set("n", "w", "<cmd>Telescope live_grep<cr>", { buffer = 0, desc = "Find word" })
+      vim.keymap.set("n", "c", "<cmd>Neotree position=float dir=~/.config/nvim<cr>", { buffer = 0, desc = "Neovim Config" })
     end
   end
 })
@@ -59,3 +66,4 @@ vim.api.nvim_create_autocmd("VimEnter", {
 -- Commands
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})
+vim.api.nvim_create_user_command("W", "w", {})
