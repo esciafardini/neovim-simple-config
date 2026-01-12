@@ -119,7 +119,7 @@ return {
           local total_count = 0
 
           for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-            if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "clojure" then
+            if vim.bo[buf].buflisted and vim.bo[buf].filetype == "clojure" then
               local positions = find_log_positions(buf)
               if #positions > 0 then
                 table.insert(buffers_to_clean, { buf = buf })

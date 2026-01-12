@@ -51,6 +51,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
       vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
+      vim.keymap.set("n", "f", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Find files" })
     end
   end
 })
