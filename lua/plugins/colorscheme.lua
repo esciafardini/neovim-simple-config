@@ -1,10 +1,17 @@
-return
-{
+return {
   "rebelot/kanagawa.nvim",
   config = function()
+    require("kanagawa").setup({
+      overrides = function(colors)
+        local theme = colors.theme
+        return {
+          LineNr = { fg = theme.syn.string, bg = theme.ui.bg_m3 },
+          CursorLineNr = { fg = theme.syn.number, bg = theme.ui.bg_m3, bold = true },
+          SignColumn = { bg = theme.ui.bg_m3 },
+        }
+      end,
+    })
+    -- set color scheme last
     vim.cmd.colorscheme("kanagawa")
-    vim.api.nvim_set_hl(0, "LineNr", { fg = "#7FB4CA", bg = "#2A2A37" })
-    vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#E6C384", bg = "#2A2A37", bold = true })
-    vim.api.nvim_set_hl(0, "SignColumn", { bg = "#2A2A37" })
   end,
 }

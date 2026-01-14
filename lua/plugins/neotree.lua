@@ -1,5 +1,6 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
+  lazy = true,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
@@ -13,6 +14,8 @@ return {
         git_status = { enabled = false },
         diagnostics = { enabled = false },
       },
+      git_status_async = false,
+      enable_git_status = false,
       filesystem = {
         filtered_items = {
           visible = true,

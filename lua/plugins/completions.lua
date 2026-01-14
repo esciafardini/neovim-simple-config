@@ -1,5 +1,6 @@
 return {
   {
+    -- LuaSnip = snippet engine (expands snippets)
     "L3MON4D3/LuaSnip",
     version = "v2.*",
     build = "make install_jsregexp",
@@ -8,7 +9,7 @@ return {
     end,
   },
   {
-    -- need this for ease nvim lua tinkering
+    -- Neovim Lua API completions (for vim.api.* suggestions)
     "folke/lazydev.nvim",
     ft = "lua",
     opts = {
@@ -18,6 +19,7 @@ return {
     },
   },
   {
+    -- completion UI (the popup menu, sources, keymaps)
     "saghen/blink.cmp",
     dependencies = { "rafamadriz/friendly-snippets", "L3MON4D3/LuaSnip" },
     version = "1.*",
@@ -32,9 +34,9 @@ return {
       appearance = {
         nerd_font_variant = "mono"
       },
-      completion = { documentation = { auto_show = false } },
+      completion = { documentation = { auto_show = true } },
       sources = {
-        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        default = { "buffer", "lazydev", "lsp", "path", "snippets" },
         providers = {
           lazydev = {
             name = "LazyDev",

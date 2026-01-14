@@ -37,6 +37,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Keymaps
+vim.keymap.del("n", "gc")
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
 vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block updwards" })
 vim.keymap.set("v", "L", ":lua<CR>", { desc = "Move block updwards" })
@@ -49,7 +50,6 @@ vim.keymap.set("n", "<leader>ac", function()
   vim.cmd("Neotree position=float dir=" .. vim.fn.stdpath("config"))
 end, { desc = "Nvim Config" })
 
-
 -- Start screen keymap
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
@@ -58,7 +58,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
       vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
       vim.keymap.set("n", "f", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Find files" })
       vim.keymap.set("n", "w", "<cmd>Telescope live_grep<cr>", { buffer = 0, desc = "Find word" })
-      vim.keymap.set("n", "c", "<cmd>Neotree position=float dir=~/.config/nvim<cr>", { buffer = 0, desc = "Neovim Config" })
     end
   end
 })

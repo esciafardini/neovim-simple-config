@@ -2,11 +2,15 @@ return {
   "Olical/conjure",
   ft = { "clojure", "fennel", "python" },
   lazy = true,
+  -- init happens BEFORE load
   init = function()
+    -- vim.g loads before plugins, so need be set ahead of time
     vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
     vim.g["conjure#extract#tree_sitter#enabled"] = true
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
     vim.g["conjure#log#filetype"] = "clojure"
+  end,
+  config = function()
     vim.keymap.set("n", "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", { desc = "Connect To Service" })
     vim.keymap.set("n", "<leader>cj", ":ConjureConnect local.aclaimant.com 7001<cr>", { desc = "Connect To Jobs" })
     vim.keymap.set("n", "<leader>ca", ":ConjureConnect local.aclaimant.com 7002<cr>", { desc = "Connect To Alerter" })
