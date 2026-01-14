@@ -6,7 +6,18 @@ return {
     "MunifTanjim/nui.nvim",
   },
   keys = {
-    { "<leader>e", "<cmd>Neotree filesystem reveal float<cr>", desc = "File Explorer" },
+    {
+      "<leader>e",
+      function()
+        local path = vim.fn.expand("%:p")
+        if path ~= "" and vim.fn.filereadable(path) == 1 then
+          vim.cmd("Neotree filesystem reveal float")
+        else
+          vim.cmd("Neotree filesystem float")
+        end
+      end,
+      desc = "File Explorer"
+    },
   },
   config = function()
     require("neo-tree").setup({
