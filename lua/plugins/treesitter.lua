@@ -29,7 +29,7 @@ return
     "nvim-treesitter/nvim-treesitter",
     config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c", "clojure", "html", "javascript", "lua", "query", "vim", "vimdoc" },
+        ensure_installed = { "c", "clojure", "html", "javascript", "lua", "query", "ruby", "vim", "vimdoc" },
         auto_install = true,
         highlight = {
           enable = true,
@@ -41,17 +41,15 @@ return
             node_incremental = "<leader>si",  --scope increase
             node_decremental = "<leader>sd",  --scope decrease
             scope_incremental = "<leader>sc", --scope creep
-
           },
         },
-        vim.keymap.set("n", "<leader>sn", function()
-            local node = vim.treesitter.get_node()
-            if node then
-              print(node:type())
-            end
-        end,
-        { desc = "Get node" })
       })
+      vim.keymap.set("n", "<leader>sn", function()
+        local node = vim.treesitter.get_node()
+        if node then
+          print(node:type())
+        end
+      end, { desc = "Get node" })
     end
   }
 }
