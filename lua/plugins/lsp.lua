@@ -1,31 +1,22 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    -- mason.nvim: Package manager that downloads/installs tooling
-    --   :Mason       - UI to browse, install, update packages
-    --   :MasonUpdate - update all installed packages
-    --   Can install: LSP servers, formatters, linters, DAP adapters
     "williamboman/mason.nvim",
-    -- mason-lspconfig: LSP-specific automation layer
-    --   ensure_installed - declarative list, auto-installs on startup
-    --   Auto-starts servers when you open matching filetypes
-    --   Why need both? mason = installer, mason-lspconfig = LSP glue
+    -- :Mason       - UI to browse, install, update packages
+    -- :MasonUpdate - update all installed packages
     "mason-org/mason-lspconfig.nvim",
+    -- ensure_installed - declarative list, auto-installs on startup
+    -- Auto-starts servers when you open matching filetypes
   },
   config = function()
     require("mason").setup()
     require("mason-lspconfig").setup({
-      ensure_installed = { "clojure_lsp", "lua_ls", "ruby_lsp" },
-      -- No built-in auto-update. Run :MasonUpdate manually.
-      -- Or uncomment next line to update on every startup (slower):
-      -- vim.cmd("MasonUpdate")
+      ensure_installed = { "clojure_lsp", "lua_ls", "ruby_lsp" }
     })
-
     vim.diagnostic.config({
       virtual_text = true,
       virtual_lines = false,
     })
-
     -- Server configs
     vim.lsp.config("ruby_lsp", {
       init_options = {
@@ -45,7 +36,6 @@ return {
         },
       },
     })
-
     -- Keymaps (on attach)
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(event)
@@ -90,7 +80,7 @@ return {
           end
           print("No form found")
         end, opts("Format form"))
-      end,
+      end
     })
-  end,
+  end
 }

@@ -12,6 +12,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
 vim.opt.ignorecase = true
+vim.opt.smartcase = true
 vim.opt.inccommand = "split"
 vim.opt.expandtab = true
 vim.opt.number = true
@@ -39,8 +40,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Keymaps
 vim.keymap.del("n", "gc")
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
-vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block updwards" })
-vim.keymap.set("v", "L", ":lua<CR>", { desc = "Move block updwards" })
+vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })

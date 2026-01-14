@@ -1,7 +1,6 @@
 return {
   "Olical/conjure",
   ft = { "clojure", "fennel", "python" },
-  lazy = true,
   -- init happens BEFORE load
   init = function()
     -- vim.g loads before plugins, so need be set ahead of time

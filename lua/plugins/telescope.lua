@@ -6,8 +6,6 @@ return {
     "danielfalk/smart-open.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
     "nvim-lua/plenary.nvim",
-    "nvim-telescope/telescope-fzf-native.nvim",
-    "danielfalk/smart-open.nvim",
   },
   config = function()
     require("telescope").setup({

@@ -4,60 +4,58 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a personal Neovim configuration using lazy.nvim for plugin management. The config is Clojure-focused with REPL-driven development support via Conjure.
-
-**Neovim Version**: 0.11+ (uses `vim.lsp.config` API, not deprecated `require('lspconfig')`)
-
-**API Notes**: Use `vim.uv` for libuv bindings, not the deprecated `vim.loop`.
+This is a modular Neovim configuration optimized for Clojure development with REPL-driven workflows. Uses lazy.nvim for plugin management with auto-discovery of plugin specs in `lua/plugins/`.
 
 ## Architecture
 
-**Entry Point**: `init.lua` requires two modules:
-- `options` - Core settings, keymaps, autocmds
-- `lazyconfig` - lazy.nvim bootstrap and plugin loading
+```
+init.lua                 # Entry point: loads options.lua then lazyconfig.lua
+lua/
+  options.lua            # Global settings, keymaps, autocmds, leader keys
+  lazyconfig.lua         # lazy.nvim bootstrap and plugin loader
+  plugins/               # Auto-loaded plugin configurations (one per file)
+snippets/                # Custom VSCode-format snippets for LuaSnip
+```
 
-**Plugin Specs**: Each file in `lua/plugins/` returns a lazy.nvim plugin spec table. Lazy.nvim auto-discovers and loads all files in this directory.
+## Key Conventions
 
-**Snippets**: Custom VSCode-format snippets in `snippets/` directory, loaded by LuaSnip.
+- **Leader**: `<space>` (global), `,` (localleader for Clojure/Conjure)
+- **LSP**: Managed via Mason + mason-lspconfig. Servers: clojure_lsp, lua_ls, ruby_lsp
+- **Completion**: blink.cmp with LuaSnip snippets
+- **Neovim version**: 0.11+ (uses modern `vim.lsp.config` API)
 
-## Adding Plugins
+## Plugin Configuration Pattern
 
-Create a new file in `lua/plugins/` returning a spec:
-
+Each file in `lua/plugins/` returns a lazy.nvim spec table. Example structure:
 ```lua
 return {
   "author/plugin-name",
-  lazy = true,                          -- or use ft/cmd/keys/event for triggers
-  dependencies = { "dep1" },
+  dependencies = { ... },
   config = function()
-    require("plugin").setup({ ... })
+    -- setup code
   end,
 }
 ```
 
-## Keymap Conventions
+## Important Keybinding Groups
 
-- **Leader**: Space
-- **Local Leader**: Comma (used for Lisp/Conjure operations)
-- **Prefix Groups** (defined in which-key):
-  - `<leader>c` - Conjure REPL
-  - `<leader>l` - LSP operations
-  - `<leader>s` - Treesitter selections
-  - `<leader>g` - Git
+| Prefix | Purpose | Config Location |
+|--------|---------|-----------------|
+| `<leader>f` | Telescope (find files/words) | `plugins/telescope.lua` |
+| `<leader>l` | LSP actions | `plugins/lsp.lua` |
+| `<leader>c` | Conjure REPL | `plugins/conjure.lua` |
+| `<leader>s` | Treesitter selection | `plugins/treesitter.lua` |
+| `<leader>g` | Git (lazygit, blame) | `plugins/git.lua` |
+| `<localleader>` | Paredit/structural editing | `plugins/paredit.lua` |
 
-## LSP Setup
+## Clojure-Specific Features
 
-Mason ensures these servers are installed: `lua_ls`, `clojure_lsp`, `clangd`, `jsonls`, `ts_ls`, `ruby_lsp`
+- **Conjure ports**: Service (7000), Jobs (7001), Alerter (7002), Shadow CLJS (7888)
+- **Log management**: `<leader>ls` wraps in `log/spy`, `<leader>ld` wraps in `log/daff`
+- **Auto-cleanup**: Prompts to remove log statements on quit (clojure buffers)
+- **Form formatting**: `<leader>lf` formats current s-expression using LSP
+- **Paredit**: Structural editing with `<localleader>w`, `<localleader>[`, etc.
 
-LSP keymaps are attached on `LspAttach` event in `lsp-config.lua`. Use `vim.lsp.config()` for server-specific settings (not `require('lspconfig')`).
+## Validation
 
-## Clojure-Specific
-
-- Conjure connects to local services on ports 7000, 7001, 7002 via `<leader>cs/cj/ca`
-- Custom fuzzy indentation for routing macros (GET, POST, PUT, etc.) in `options.lua`
-- Paredit provides structural editing (slurp/barf/raise/splice)
-- Custom snippets include `spy`, `tx`, `px`, `cx` templates
-
-## Testing Changes
-
-After modifying configs, restart Neovim or run `:Lazy reload <plugin>`. Use `:checkhealth` to diagnose issues.
+Run `:checkhealth` to verify configuration health. All providers except Neovim core are disabled for performance.
