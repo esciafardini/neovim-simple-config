@@ -1,3 +1,15 @@
+local function open_neotree(dir)
+  local path = vim.fn.expand("%:p")
+  local cmd = "Neotree filesystem float"
+  if path ~= "" and vim.fn.filereadable(path) == 1 then
+    cmd = cmd .. " reveal"
+  end
+  if dir then
+    cmd = cmd .. " dir=" .. dir
+  end
+  vim.cmd(cmd)
+end
+
 return {
   "nvim-neo-tree/neo-tree.nvim",
   lazy = true,
@@ -6,18 +18,8 @@ return {
     "MunifTanjim/nui.nvim",
   },
   keys = {
-    {
-      "<leader>e",
-      function()
-        local path = vim.fn.expand("%:p")
-        if path ~= "" and vim.fn.filereadable(path) == 1 then
-          vim.cmd("Neotree filesystem reveal float")
-        else
-          vim.cmd("Neotree filesystem float")
-        end
-      end,
-      desc = "File Explorer"
-    },
+    { "<leader>e", function() open_neotree() end, desc = "File Explorer" },
+    { "<leader>ac", function() open_neotree(vim.fn.stdpath("config")) end, desc = "Nvim Config" },
   },
   config = function()
     require("neo-tree").setup({
