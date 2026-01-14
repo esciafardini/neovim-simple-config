@@ -8,10 +8,13 @@ return {
     -- Auto-starts servers when you open matching filetypes
   },
   config = function()
+    -- Mason (lsp manager):
     require("mason").setup()
+    -- Bridge to wire up LSPs from Mason to nvim-lsp & create relevant autocommands:
     require("mason-lspconfig").setup({
       ensure_installed = { "clojure_lsp", "lua_ls", "ruby_lsp" }
     })
+    -- nvim-lspconfig settings
     vim.diagnostic.config({
       virtual_text = true,
       virtual_lines = false,
@@ -42,12 +45,17 @@ return {
           return { buffer = event.buf, desc = desc }
         end
         -- some of these are default, but I keep them here for reference
+        -- vim.keymap.comngiadkfjalksdjfalskdjflaskdjflaksjdflaksjdflakjsdflkj
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>', opts("LSP Hover"))
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go To Definition"))
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Go To Reference"))
         vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts("Code Actions"))
         vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts("Rename"))
-        vim.keymap.set("n", "<leader>lF", vim.lsp.buf.format, opts("Format File"))
+        -- format file
+        vim.keymap.set("n", "<leader>lF", function()
+          vim.lsp.buf.format()
+          print("File formatted")
+        end, opts("Format File"))
         -- format current form
         vim.keymap.set("n", "<leader>lf", function()
           local node = vim.treesitter.get_node()
@@ -70,7 +78,8 @@ return {
             end
             node = node:parent()
           end
-          print("No form found")
+          print("No form found, formatting file")
+          vim.lsp.buf.format()
         end, opts("Format form"))
         -- clean up un-used (pcall to ignore if not set - OCD desire for :checkhealth to have no warnings)
         pcall(vim.keymap.del, "n", "grt")
@@ -82,3 +91,4 @@ return {
     })
   end
 }
+--complete

@@ -36,3 +36,4 @@ return {
     end, { desc = "Connect To Shadow CLJS App" })
   end
 }
+--complete

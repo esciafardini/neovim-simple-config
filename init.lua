@@ -1,2 +1,3 @@
-require("options")
 require("lazyconfig")
+require("options")
+require("whitespace")

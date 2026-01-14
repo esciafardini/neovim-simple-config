@@ -26,16 +26,6 @@ vim.opt.undofile = true
 vim.opt.virtualedit = "block"
 vim.opt.wrap = false
 
--- Prevent Bad Formatting
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "clojure",
-  callback = function()
-    local existing = vim.g.clojure_fuzzy_indent_patterns or {}
-    vim.g.clojure_fuzzy_indent_patterns = vim.list_extend(existing,
-      { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
-  end
-})
-
 -- Keymaps
 vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
@@ -45,14 +35,16 @@ vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
 vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
-
--- delete gc
 vim.keymap.del("n", "gc")
 
--- Start screen keymap
+-- Commands
+vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
+vim.api.nvim_create_user_command("Wq", "wq", {})
+vim.api.nvim_create_user_command("W", "w", {})
+
+-- Start screen keymap (like Dashboard)
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    -- replicating dashboard behavior without dashboard :)
     if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
       vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
       vim.keymap.set("n", "f", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Find files" })
@@ -61,7 +53,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
   end
 })
 
--- Commands
-vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
-vim.api.nvim_create_user_command("Wq", "wq", {})
-vim.api.nvim_create_user_command("W", "w", {})
+-- Prevent Bad Formatting for Clojure Routes
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "clojure",
+  callback = function()
+    local existing = vim.g.clojure_fuzzy_indent_patterns or {}
+    vim.g.clojure_fuzzy_indent_patterns = vim.list_extend(existing,
+      { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
+  end
+})

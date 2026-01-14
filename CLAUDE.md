@@ -59,3 +59,78 @@ return {
 ## Validation
 
 Run `:checkhealth` to verify configuration health. All providers except Neovim core are disabled for performance.
+
+## Internals Reference
+
+### LSP Architecture
+
+```
+vim.lsp (built-in)        nvim-lspconfig (plugin)       mason.nvim (plugin)
+─────────────────         ────────────────────          ─────────────────
+LSP client that           Library of server configs     Package manager that
+speaks the protocol       (how to start clojure_lsp,    downloads LSP servers
+                          what args, root detection)    to ~/.local/share/nvim/mason/
+        ↑                         ↑                              ↑
+        └─────────────────────────┼──────────────────────────────┘
+                                  │
+                        mason-lspconfig (plugin)
+                        ────────────────────────
+                        Bridge: combines mason's binary paths
+                        with lspconfig's server configs,
+                        auto-starts servers for filetypes
+```
+
+### Completion Stack
+
+```
+┌─────────────────────────────────────────────┐
+│  blink.cmp (UI)                             │
+│  - Popup menu, keymaps, source aggregation  │
+└─────────────────────────────────────────────┘
+        │ gathers from sources:
+        ▼
+┌─────────────────────────────────────────────┐
+│  Sources                                    │
+│  - lsp      → language server completions   │
+│  - buffer   → words in current file         │
+│  - path     → filesystem paths              │
+│  - snippets → from LuaSnip                  │
+│  - lazydev  → Neovim Lua API (vim.*)        │
+└─────────────────────────────────────────────┘
+        │ snippets come from:
+        ▼
+┌─────────────────────────────────────────────┐
+│  LuaSnip (engine)                           │
+│  - Expands snippets, handles placeholders   │
+│  - Loads from friendly-snippets + snippets/ │
+└─────────────────────────────────────────────┘
+```
+
+### Treesitter Queries
+
+Used in `conjure.lua` for log/spy and log/daff detection.
+
+```lua
+local query = ts.query.parse("clojure", [[
+  (list_lit
+    (sym_lit) @fn_name
+    (_) @inner
+    (#eq? @fn_name "log/spy"))
+]])
+```
+
+- `ts.query.parse()` → compiles a tree pattern matcher
+- `@name` → captures matching nodes, assigned integer IDs
+- `(#eq? ...)` → predicate filter (only match if condition true)
+- `query.captures` → lookup table `{1: "fn_name", 2: "inner"}`
+- `query:iter_captures(root, bufnr)` → yields `(id, node)` pairs
+
+```lua
+for id, node in query:iter_captures(root, bufnr) do
+  local name = query.captures[id]  -- integer → name
+  if name == "inner" then
+    local row, col = node:start()
+    -- do something with position
+  end
+end
+```
