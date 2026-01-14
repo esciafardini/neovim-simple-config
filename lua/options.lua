@@ -1,24 +1,23 @@
 -- Disable unused providers
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
 vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
 
--- Globals
+-- Vim (Old World)
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
--- Opts
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.inccommand = "split"
 vim.opt.expandtab = true
+vim.opt.inccommand = "split"
+vim.opt.ignorecase = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 2
+vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 2

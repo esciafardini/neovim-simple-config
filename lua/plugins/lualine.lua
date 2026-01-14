@@ -9,7 +9,7 @@ return {
       sections = {
         lualine_c = {
            'filename',
-          { function() return ' 🕯 ' end, padding = { left = 1, right = 0 } },
+          { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
         },
         lualine_x = {
           { 'filetype', icon_only = true },

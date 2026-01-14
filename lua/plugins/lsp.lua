@@ -2,10 +2,9 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason.nvim",
-    -- :Mason       - UI to browse, install, update packages
-    -- :MasonUpdate - update all installed packages
+    -- :Mason -> UI to browse, install, update packages
     "mason-org/mason-lspconfig.nvim",
-    -- ensure_installed - declarative list, auto-installs on startup
+    -- ensure_installed: declarative list, auto-installs on startup
     -- Auto-starts servers when you open matching filetypes
   },
   config = function()
@@ -42,12 +41,6 @@ return {
         local opts = function(desc)
           return { buffer = event.buf, desc = desc }
         end
-        -- clean up un-used (pcall to ignore if not set)
-        pcall(vim.keymap.del, "n", "grt")
-        pcall(vim.keymap.del, "n", "grr")
-        pcall(vim.keymap.del, "n", "gra")
-        pcall(vim.keymap.del, "n", "grn")
-        pcall(vim.keymap.del, "n", "gri")
         -- some of these are default, but I keep them here for reference
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>', opts("LSP Hover"))
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go To Definition"))
@@ -59,7 +52,6 @@ return {
         vim.keymap.set("n", "<leader>lf", function()
           local node = vim.treesitter.get_node()
           local form_types = {
-            -- add to this as you go (use <leader>sn to see node types)
             "list_lit", "block", "table_constructor"
           }
           while node do
@@ -70,7 +62,7 @@ return {
                 vim.lsp.buf.format({
                   range = {
                     ["start"] = { start_row + 1, start_col },
-                    ["end"] = { end_row + 1, end_col },
+                    ["end"] = { end_row + 1, end_col }
                   }
                 })
                 return
@@ -80,6 +72,12 @@ return {
           end
           print("No form found")
         end, opts("Format form"))
+        -- clean up un-used (pcall to ignore if not set - OCD desire for :checkhealth to have no warnings)
+        pcall(vim.keymap.del, "n", "grt")
+        pcall(vim.keymap.del, "n", "grr")
+        pcall(vim.keymap.del, "n", "gra")
+        pcall(vim.keymap.del, "n", "grn")
+        pcall(vim.keymap.del, "n", "gri")
       end
     })
   end
