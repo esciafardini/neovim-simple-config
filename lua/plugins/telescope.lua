@@ -28,6 +28,7 @@ return {
     vim.keymap.set("n", "<leader>ff", "<cmd>Telescope smart_open<cr>", { desc = "Find Files (Smart)" })
     vim.keymap.set("n", "<leader>fF", builtin.find_files, { desc = "Find Files (All)" })
     vim.keymap.set("n", "<leader>fw", builtin.live_grep, { desc = "Find Word" })
+    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffer" })
     vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, { desc = "Open Telescope" })
     require("telescope").load_extension("fzf")
     require("telescope").load_extension("ui-select")

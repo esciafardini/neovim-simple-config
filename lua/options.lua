@@ -28,6 +28,7 @@ vim.opt.wrap = false
 
 -- Keymaps
 vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
+vim.keymap.set("t", "jkj", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
 vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
