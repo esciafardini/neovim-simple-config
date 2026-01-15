@@ -1,7 +1,7 @@
 return {
   "neovim/nvim-lspconfig",
   dependencies = {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     -- :Mason -> UI to browse, install, update packages
     "mason-org/mason-lspconfig.nvim",
     -- ensure_installed: declarative list, auto-installs on startup

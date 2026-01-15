@@ -27,7 +27,6 @@ return {
     signature = { enabled = true },
     keymap = {
       preset = "default",
-      ["<C-c>"] = { "show" },
       ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
       ["<C-b>"] = { "select_prev", "fallback" },
       ["<C-n>"] = { "select_next", "fallback" },
