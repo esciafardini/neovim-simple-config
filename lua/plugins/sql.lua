@@ -33,9 +33,8 @@ return {
           if vim.bo.filetype == "sql" then
             local bufname = vim.api.nvim_buf_get_name(0)
             if bufname:match("aclaimant%-local%-query") and vim.fn.line2byte('$') == -1 then
-              vim.api.nvim_put({ "set search_path to melco, common;" }, "c", false, false)
-              vim.cmd("normal <Plug>(DBUI_ExecuteQuery)")
-              print("search_path set to melco")
+              vim.api.nvim_put({ "set search_path to common, ;" }, "c", false, false)
+              vim.cmd('startinsert')
             end
           end
         end, 100)
