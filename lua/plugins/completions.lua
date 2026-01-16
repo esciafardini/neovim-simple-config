@@ -39,8 +39,8 @@ return {
         auto_show = false
       },
       trigger = {
-        show_on_keyword = false,
-        show_on_trigger_character = false,
+        show_on_keyword = true,
+        show_on_trigger_character = true,
       },
     },
     sources = {
