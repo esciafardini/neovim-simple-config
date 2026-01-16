@@ -1,6 +1,6 @@
 return {
   "m4xshen/hardtime.nvim",
-  dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+  dependencies = { "MunifTanjim/nui.nvim" },
   opts = {
     max_count = 2,
     disable_mouse = false,

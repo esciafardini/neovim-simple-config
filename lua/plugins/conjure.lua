@@ -30,7 +30,7 @@ return {
     vim.g["conjure#extract#tree_sitter#enabled"] = true
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
     vim.g["conjure#log#filetype"] = "clojure"
-    vim.g["conjure#filetype#sql"] = false
+    vim.g["conjure#filetype#sql"] = false --use dadbod instead :)
   end,
   keys = {
     { "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", desc = "Connect To Service" },
