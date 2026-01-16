@@ -38,6 +38,17 @@ vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Rec
 vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
 vim.keymap.del("n", "gc")
 
+-- yank links up/down
+vim.keymap.set('n', '<leader>yk', function()
+  vim.cmd(':-' .. vim.v.count1 .. 'y')
+  print("Yanked line " .. vim.v.count1 .. " (up)")
+end)
+
+vim.keymap.set('n', '<leader>yj', function()
+  vim.cmd(':+' .. vim.v.count1 .. 'y')
+  print("Yanked line " .. vim.v.count1 .. " (down)")
+end)
+
 -- Commands
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})

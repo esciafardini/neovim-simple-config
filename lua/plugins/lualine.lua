@@ -26,11 +26,11 @@ return {
       },
       sections = {
         lualine_c = {
-           'filename',
+          'filename',
           { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
         },
         lualine_x = {
-          { 'filetype', icon_only = true },
+          { 'filetype',  icon_only = true },
           { 'lsp_status' }
         },
       },

@@ -8,6 +8,7 @@ return {
     vim.g["conjure#extract#tree_sitter#enabled"] = true
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
     vim.g["conjure#log#filetype"] = "clojure"
+    vim.g["conjure#filetype#sql"] = false
   end,
   config = function()
     vim.keymap.set("n", "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", { desc = "Connect To Service" })

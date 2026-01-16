@@ -44,6 +44,7 @@ return {
 | `<leader>f` | Telescope (find files/words) | `plugins/telescope.lua` |
 | `<leader>l` | LSP actions | `plugins/lsp.lua` |
 | `<leader>c` | Conjure REPL | `plugins/conjure.lua` |
+| `<leader>cw` | Clean trailing whitespace | `whitespace.lua` |
 | `<leader>s` | Treesitter selection | `plugins/treesitter.lua` |
 | `<leader>g` | Git (lazygit, blame) | `plugins/git.lua` |
 | `<localleader>` | Paredit/structural editing | `plugins/paredit.lua` |

@@ -19,7 +19,7 @@ return {
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
       end,
-    }
+    },
   },
   version = "1.*",
   opts = {
@@ -45,10 +45,20 @@ return {
     },
     sources = {
       default = { "buffer", "lazydev", "lsp", "path", "snippets" },
+      per_filetype = {
+        sql = { "dadbod", "buffer" },
+        mysql = { "dadbod", "buffer" },
+        plsql = { "dadbod", "buffer" },
+      },
       providers = {
         lazydev = {
           name = "LazyDev",
           module = "lazydev.integrations.blink",
+          score_offset = 100,
+        },
+        dadbod = {
+          name = "Dadbod",
+          module = "vim_dadbod_completion.blink",
           score_offset = 100,
         },
       },
@@ -57,4 +67,3 @@ return {
   },
   opts_extend = { "sources.default" }
 }
--- complete

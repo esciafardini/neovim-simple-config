@@ -27,7 +27,7 @@ return {
     })
     vim.lsp.config("clojure_lsp", {
       flags = {
-        debounce_text_changes = 1500,
+        debounce_text_changes = 15000,
       },
     })
     vim.lsp.config("lua_ls", {
