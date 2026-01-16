@@ -3,7 +3,7 @@ return {
   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
   opts = {
     max_count = 2,
-    disable_mouse = true,
+    disable_mouse = false,
     disabled_keys = {
       ["<Up>"] = { "n" },
       ["<Down>"] = { "n" },
@@ -16,7 +16,7 @@ return {
       ["k"] = { "n", "x" },
       ["l"] = { "n", "x" },
     },
-    hint = true,   -- show hints for better motions
+    hint = true,
     notification = true,
-  }
+  },
 }

@@ -1,9 +1,3 @@
-local function is_dadbod_ui_buffer()
-  local ft = vim.bo.filetype
-  local bufname = vim.api.nvim_buf_get_name(0)
-  print("ft:", ft, "name:", bufname)
-end
-
 return {
   "kristijanhusak/vim-dadbod-ui",
   dependencies = {
