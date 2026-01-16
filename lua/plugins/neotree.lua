@@ -43,4 +43,3 @@ return {
     { "<leader>ac", function() open_neotree(vim.fn.stdpath("config")) end, desc = "Nvim Config" },
   }
 }
---complete

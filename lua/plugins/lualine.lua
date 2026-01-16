@@ -39,4 +39,3 @@ return {
     { "<S-h>", ":bprev<CR>", desc = "Previous buffer" },
   },
 }
---complete

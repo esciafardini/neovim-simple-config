@@ -39,4 +39,3 @@ return {
     { "<leader>cS", connect_to_shadow_app,                          desc = "Connect To Shadow CLJS App" },
   }
 }
---complete

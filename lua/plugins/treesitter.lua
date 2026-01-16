@@ -6,8 +6,7 @@ local function get_node()
   end
 end
 
-return
-{
+return {
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
