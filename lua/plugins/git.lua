@@ -18,9 +18,9 @@ return {
   },
   {
     "tpope/vim-fugitive",
-    config = function()
-      vim.keymap.set("n", "<leader>gb", ":Git blame<CR>", { desc = "Git Blame" })
-    end
+    keys = {
+      { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git Blame" }
+    },
   },
 }
 --complete

@@ -1,4 +1,11 @@
 ---@diagnostic disable: missing-fields
+local function get_node()
+  local node = vim.treesitter.get_node()
+  if node then
+    print(node:type())
+  end
+end
+
 return
 {
   {
@@ -45,12 +52,9 @@ return
           },
         },
       })
-      vim.keymap.set("n", "<leader>sn", function()
-        local node = vim.treesitter.get_node()
-        if node then
-          print(node:type())
-        end
-      end, { desc = "Get node" })
-    end
+    end,
+    keys = {
+      { "<leader>sn", get_node, desc = "Get node" },
+    },
   }
 }

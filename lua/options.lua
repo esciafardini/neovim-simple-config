@@ -27,7 +27,7 @@ vim.opt.virtualedit = "block"
 vim.opt.wrap = false
 
 -- Keymaps
-vim.keymap.set("i", "jkj", "<Esc>", { noremap = false })
+vim.keymap.set("i", "jkj", "<Esc>", { noremap = false, desc = "Exit insert mode" })
 vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
 vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
@@ -41,12 +41,12 @@ vim.keymap.del("n", "gc")
 vim.keymap.set('n', '<leader>yk', function()
   vim.cmd(':-' .. vim.v.count1 .. 'y')
   print("Yanked line " .. vim.v.count1 .. " (up)")
-end)
+end, { desc = "Yank line above" })
 
 vim.keymap.set('n', '<leader>yj', function()
   vim.cmd(':+' .. vim.v.count1 .. 'y')
   print("Yanked line " .. vim.v.count1 .. " (down)")
-end)
+end, { desc = "Yank line below" })
 
 -- Commands
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})

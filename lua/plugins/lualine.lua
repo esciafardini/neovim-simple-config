@@ -2,8 +2,6 @@ return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" }, -- for "cool" file symbols
   config = function()
-    vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
-    vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
     require('lualine').setup({
       options = {
         theme = 'auto'
@@ -35,6 +33,10 @@ return {
         },
       },
     })
-  end
+  end,
+  keys = {
+    { "<S-l>", ":bnext<CR>", desc = "Next buffer" },
+    { "<S-h>", ":bprev<CR>", desc = "Previous buffer" },
+  },
 }
 --complete

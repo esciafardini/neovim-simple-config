@@ -45,6 +45,7 @@ return {
           return { buffer = event.buf, desc = desc }
         end
         -- some of these are default, but I keep them here for reference
+        -- lua/plugins/lsp.lua
         -- vim.keymap.comngiadkfjalksdjfalskdjflaskdjflaksjdflaksjdflakjsdflkj
         vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover({border = "single", width = 100})<cr>', opts("LSP Hover"))
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go To Definition"))

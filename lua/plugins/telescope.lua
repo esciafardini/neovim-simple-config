@@ -1,5 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
+  cmd = { "Telescope" },
   dependencies = {
     "kkharji/sqlite.lua",
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -8,6 +9,9 @@ return {
     "nvim-lua/plenary.nvim",
   },
   config = function()
+    require("telescope").load_extension("fzf")
+    require("telescope").load_extension("ui-select")
+    require("telescope").load_extension("smart_open")
     require("telescope").setup({
       extensions = {
         fzf = {
@@ -24,14 +28,12 @@ return {
         },
       },
     })
-    local builtin = require("telescope.builtin")
-    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope smart_open<cr>", { desc = "Find Files (Smart)" })
-    vim.keymap.set("n", "<leader>fF", builtin.find_files, { desc = "Find Files (All)" })
-    vim.keymap.set("n", "<leader>fw", builtin.live_grep, { desc = "Find Word" })
-    vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find Buffer" })
-    vim.keymap.set("n", "<leader><leader>", builtin.oldfiles, { desc = "Open Telescope" })
-    require("telescope").load_extension("fzf")
-    require("telescope").load_extension("ui-select")
-    require("telescope").load_extension("smart_open")
   end,
+  keys = {
+    { "<leader>ff",       "<cmd>Telescope smart_open<cr>", desc = "Find Files (Smart)" },
+    { "<leader>fF",       "<cmd>Telescope find_files<cr>", desc = "Find Files (All)" },
+    { "<leader>fw",       "<cmd>Telescope live_grep<cr>",  desc = "Find Word" },
+    { "<leader>fb",       "<cmd>Telescope buffers<cr>",    desc = "Find Buffer" },
+    { "<leader><leader>", "<cmd>Telescope oldfiles<cr>",   desc = "Open Telescope" },
+  },
 }

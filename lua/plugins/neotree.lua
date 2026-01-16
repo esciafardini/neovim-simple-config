@@ -17,10 +17,6 @@ return {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
   },
-  keys = {
-    { "<leader>e", function() open_neotree() end, desc = "File Explorer" },
-    { "<leader>ac", function() open_neotree(vim.fn.stdpath("config")) end, desc = "Nvim Config" },
-  },
   config = function()
     require("neo-tree").setup({
       default_component_configs = {
@@ -42,5 +38,9 @@ return {
       },
     })
   end,
+  keys = {
+    { "<leader>e",  function() open_neotree() end,                         desc = "File Explorer" },
+    { "<leader>ac", function() open_neotree(vim.fn.stdpath("config")) end, desc = "Nvim Config" },
+  }
 }
 --complete

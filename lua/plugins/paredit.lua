@@ -1,3 +1,13 @@
+-- generate random 3-letter variable name
+local function randomVarName()
+  local length = 3
+  local array = {}
+  for i = 1, length do
+    array[i] = string.char(math.random(97, 122))
+  end
+  return table.concat(array)
+end
+
 -- Find instances of log/spy, log/daff
 -- take some time to understand this....
 local function find_log_positions(bufnr)
@@ -41,83 +51,79 @@ local function find_log_positions(bufnr)
   return positions
 end
 
--- generate random 3-letter variable name
-local function randomVarName()
-  local length = 3
-  local array = {}
-  for i = 1, length do
-    array[i] = string.char(math.random(97, 122))
+local function wrap_element(open, close)
+  local paredit = require("nvim-paredit")
+  paredit.api.wrap_element_under_cursor(open, close)
+end
+
+local function raise_element()
+  local paredit = require("nvim-paredit")
+  paredit.api.raise_element()
+end
+
+local function wrap_braces()
+  wrap_element("{", "}")
+  vim.cmd("normal! F{")
+end
+
+local function wrap_brackets(insert_after_bool)
+  wrap_element("[", "]")
+  vim.cmd("normal! F[")
+  if insert_after_bool then
+    vim.cmd("normal! l")
+    vim.api.nvim_put({ " " }, "c", false, false)
+    vim.cmd("startinsert")
   end
-  return table.concat(array)
+end
+
+local function wrap_parens_and_insert()
+  wrap_element("(", ")")
+  vim.cmd("normal! F(a ")
+  vim.cmd("startinsert")
+end
+
+local function wrap_parens()
+  wrap_element("(", ")")
+  vim.cmd("normal! F(")
+end
+
+local function wrap_log_spy()
+  wrap_element("(", ")")
+  vim.cmd("normal! F(alog/spy ")
+end
+
+local function wrap_log_daff()
+  wrap_element("(", ")")
+  vim.cmd("normal! F(alog/daff " .. randomVarName() .. " ")
+  vim.cmd("normal! b")
+end
+
+-- Clean log/spy and log/daff from current buffer
+local function clean_logs_in_buffer()
+  local positions = find_log_positions(0)
+  for _, pos in ipairs(positions) do
+    vim.api.nvim_win_set_cursor(0, pos)
+    raise_element()
+  end
+  return #positions
 end
 
 return {
   "julienvincent/nvim-paredit",
+  keys = {
+    { "<localleader>w", wrap_parens_and_insert,                                                desc = "Wrap in parens and insert" },
+    { "<localleader>)", wrap_parens,                                                           desc = "Wrap in parens" },
+    { "<localleader>[", function() wrap_brackets(true) end,                                    desc = "Wrap in brackets and insert" },
+    { "<localleader>]", function() wrap_brackets(false) end,                                   desc = "Wrap in brackets" },
+    { "<localleader>{", wrap_braces,                                                           desc = "Wrap in braces" },
+    { "<localleader>}", wrap_braces,                                                           desc = "Wrap in braces" },
+    { "(",              function() require("nvim-paredit").api.move_to_prev_element_head() end, desc = "Move to prev element" },
+    { ")",              function() require("nvim-paredit").api.move_to_next_element_head() end, desc = "Move to next element" },
+    { "<leader>ls",     wrap_log_spy,                                                          desc = "Log Spy" },
+    { "<leader>ld",     wrap_log_daff,                                                         desc = "Log Daff" },
+    { "<leader>lS",     clean_logs_in_buffer,                                                  desc = "Clean logs in buffer" },
+  },
   config = function()
-    local paredit = require("nvim-paredit")
-
-    -- wrap in {}
-    local function wrap_braces()
-      paredit.api.wrap_element_under_cursor("{", "}")
-      vim.cmd("normal! F{")
-    end
-
-    -- wrap in []
-    local function wrap_brackets(insert_after_bool)
-      paredit.api.wrap_element_under_cursor("[", "]")
-      vim.cmd("normal! F[")
-      if insert_after_bool then
-        vim.cmd("normal! l")
-        vim.api.nvim_put({ " " }, "c", false, false)
-        vim.cmd("startinsert")
-      end
-    end
-
-    vim.keymap.set("n", "<localleader>w",
-      function()
-        paredit.api.wrap_element_under_cursor("(", ")")
-        vim.cmd("normal! F(a ")
-        vim.cmd("startinsert")
-      end)
-
-    vim.keymap.set("n", "<localleader>)",
-      function()
-        paredit.api.wrap_element_under_cursor("(", ")")
-        vim.cmd("normal! F(")
-      end)
-
-    vim.keymap.set("n", "<localleader>[", function() wrap_brackets(true) end)
-    vim.keymap.set("n", "<localleader>]", function() wrap_brackets(false) end)
-    vim.keymap.set("n", "<localleader>{", wrap_braces)
-    vim.keymap.set("n", "<localleader>}", wrap_braces, { desc = "Wrap in braces" })
-    vim.keymap.set("n", "(", paredit.api.move_to_prev_element_head)
-    vim.keymap.set("n", ")", paredit.api.move_to_next_element_head)
-
-    vim.keymap.set("n", "<leader>ls",
-      function()
-        paredit.api.wrap_element_under_cursor("(", ")")
-        vim.cmd("normal! F(alog/spy ")
-      end)
-
-    vim.keymap.set("n", "<leader>ld",
-      function()
-        paredit.api.wrap_element_under_cursor("(", ")")
-        vim.cmd("normal! F(alog/daff " .. randomVarName() .. " ")
-        vim.cmd("normal! b")
-      end, { desc = "Log Daff" })
-
-    -- Clean log/spy and log/daff from current buffer
-    local function clean_logs_in_buffer()
-      local positions = find_log_positions(0)
-      for _, pos in ipairs(positions) do
-        vim.api.nvim_win_set_cursor(0, pos)
-        paredit.api.raise_element()
-      end
-      return #positions
-    end
-
-    vim.keymap.set("n", "<leader>lS", clean_logs_in_buffer)
-
-    paredit.setup()
+    require("nvim-paredit").setup()
   end
 }
