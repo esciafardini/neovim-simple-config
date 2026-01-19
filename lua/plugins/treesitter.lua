@@ -2,7 +2,7 @@
 local function get_node()
   local node = vim.treesitter.get_node()
   if node then
-    print(node:type())
+    vim.notify(node:type())
   end
 end
 

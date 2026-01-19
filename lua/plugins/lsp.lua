@@ -55,7 +55,7 @@ return {
         -- format file
         vim.keymap.set("n", "<leader>lF", function()
           vim.lsp.buf.format()
-          print("File formatted")
+          vim.notify("File formatted")
         end, opts("Format File"))
         -- format current form
         vim.keymap.set("n", "<leader>lf", function()
@@ -79,7 +79,7 @@ return {
             end
             node = node:parent()
           end
-          print("No form found, formatting file")
+          vim.notify("No form found, formatting file")
           vim.lsp.buf.format()
         end, opts("Format form"))
         -- clean up un-used (pcall to ignore if not set - OCD desire for :checkhealth to have no warnings)

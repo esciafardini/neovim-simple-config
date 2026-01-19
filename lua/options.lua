@@ -39,16 +39,27 @@ vim.keymap.del("n", "gc")
 
 -- yank links up/down
 vim.keymap.set('n', '<leader>yk', function()
-  vim.cmd(':-' .. vim.v.count1 .. 'y')
-  print("Yanked line " .. vim.v.count1 .. " (up)")
+  local current = vim.fn.line('.')
+  local target = current - vim.v.count1
+  if target < 1 then
+    vim.notify("No line " .. vim.v.count1 .. " above", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd(':' .. target .. 'y')
+  vim.notify("Yanked line " .. target)
 end, { desc = "Yank line above" })
 
 vim.keymap.set('n', '<leader>yj', function()
-  vim.cmd(':+' .. vim.v.count1 .. 'y')
-  print("Yanked line " .. vim.v.count1 .. " (down)")
-end, { desc = "Yank line below" })
+  local current = vim.fn.line('.')
+  local target = current + vim.v.count1
+  if target > vim.fn.line('$') then
+    vim.notify("No line " .. vim.v.count1 .. " below", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd(':' .. target .. 'y')
+  vim.notify("Yanked line " .. target)
+end, { desc = "Yank line below" })   -- Commands
 
--- Commands
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})
 vim.api.nvim_create_user_command("WQ", "wq", {})

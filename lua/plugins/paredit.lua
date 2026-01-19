@@ -110,20 +110,21 @@ end
 
 return {
   "julienvincent/nvim-paredit",
+  ft = { "clojure", "fennel", "scheme", "lisp" },
   keys = {
-    { "<localleader>w", wrap_parens_and_insert,                                                desc = "Wrap in parens and insert" },
-    { "<localleader>)", wrap_parens,                                                           desc = "Wrap in parens" },
-    { "<localleader>[", function() wrap_brackets(true) end,                                    desc = "Wrap in brackets and insert" },
-    { "<localleader>]", function() wrap_brackets(false) end,                                   desc = "Wrap in brackets" },
-    { "<localleader>{", wrap_braces,                                                           desc = "Wrap in braces" },
-    { "<localleader>}", wrap_braces,                                                           desc = "Wrap in braces" },
-    { "(",              function() require("nvim-paredit").api.move_to_prev_element_head() end, desc = "Move to prev element" },
-    { ")",              function() require("nvim-paredit").api.move_to_next_element_head() end, desc = "Move to next element" },
-    { "<leader>ls",     wrap_log_spy,                                                          desc = "Log Spy" },
-    { "<leader>ld",     wrap_log_daff,                                                         desc = "Log Daff" },
-    { "<leader>lS",     clean_logs_in_buffer,                                                  desc = "Clean logs in buffer" },
+    { "<localleader>w", wrap_parens_and_insert,                                                 desc = "Wrap in parens and insert",    ft = "clojure" },
+    { "<localleader>)", wrap_parens,                                                            desc = "Wrap in parens",               ft = "clojure" },
+    { "<localleader>[", function() wrap_brackets(true) end,                                     desc = "Wrap in brackets and insert",  ft = "clojure" },
+    { "<localleader>]", function() wrap_brackets(false) end,                                    desc = "Wrap in brackets",             ft = "clojure" },
+    { "<localleader>{", wrap_braces,                                                            desc = "Wrap in braces",               ft = "clojure" },
+    { "<localleader>}", wrap_braces,                                                            desc = "Wrap in braces",               ft = "clojure" },
+    { "(",              function() require("nvim-paredit").api.move_to_prev_element_head() end, desc = "Move to prev element",         ft = "clojure" },
+    { ")",              function() require("nvim-paredit").api.move_to_next_element_head() end, desc = "Move to next element",         ft = "clojure" },
+    { "<leader>ls",     wrap_log_spy,                                                           desc = "Log Spy",                      ft = "clojure" },
+    { "<leader>ld",     wrap_log_daff,                                                          desc = "Log Daff",                     ft = "clojure" },
+    { "<leader>lS",     clean_logs_in_buffer,                                                   desc = "Clean logs in buffer",         ft = "clojure" },
   },
   config = function()
-    require("nvim-paredit").setup()
-  end
+    require("nvim-paredit").setup({})
+  end,
 }

@@ -14,4 +14,4 @@ return {
     -- set color scheme last
     vim.cmd.colorscheme("kanagawa")
   end,
-}
+} -- ✓
