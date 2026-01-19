@@ -6,13 +6,13 @@ end
 local function select_to_stage()
   vim.cmd("Gitsigns select_hunk")
   vim.cmd("Gitsigns stage_hunk")
-  vim.notify("Hunk has been staged ✓")
+  vim.notify("✓ Hunk has been staged ✓")
 end
 
 local function select_to_reset()
   vim.cmd("Gitsigns select_hunk")
   vim.cmd("Gitsigns stage_hunk")
-  vim.notify("Hunk has been reset ←")
+  vim.notify("☻ Hunk has been reset ☻")
 end
 
 return {
