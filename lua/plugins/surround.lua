@@ -1,3 +1,17 @@
+local lisp_fts = { clojure = true, fennel = true, scheme = true, lisp = true }
+
+-- Surround treesitter node under cursor with open/close chars
+local function surround_node(open, close)
+  if lisp_fts[vim.bo.filetype] then return end
+  local node = vim.treesitter.get_node()
+  if not node then return end
+  local sr, sc, er, ec = node:range()
+  -- Insert close first (so start position doesn't shift)
+  vim.api.nvim_buf_set_text(0, er, ec, er, ec, { close })
+  vim.api.nvim_buf_set_text(0, sr, sc, sr, sc, { open })
+  vim.api.nvim_win_set_cursor(0, { sr + 1, sc })
+end
+
 return {
   'echasnovski/mini.nvim',
   version = '*',
@@ -24,5 +38,10 @@ return {
     { ",s'", "sais'", remap = true, desc = "Surround sentence with '" },
     { ',s"', 'sais"', remap = true, desc = 'Surround sentence with "' },
     { ",s`", "sais`", remap = true, desc = "Surround sentence with `" },
+    -- "good enough" wrapping of elements in non-clj files
+    { "<localleader>w", function() surround_node("(", ")") end, desc = "Surround node with ()" },
+    { "<localleader>(", function() surround_node("(", ")") end, desc = "Surround node with ()" },
+    { "<localleader>[", function() surround_node("[", "]") end, desc = "Surround node with []" },
+    { "<localleader>{", function() surround_node("{", "}") end, desc = "Surround node with {}" },
   },
 }

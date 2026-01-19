@@ -39,5 +39,13 @@ return {
         end, 100)
       end,
     })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "dbui",
+      callback = function()
+        vim.defer_fn(function()
+          vim.cmd("normal! 2j")
+        end, 100)
+      end,
+    })
   end,
 }
