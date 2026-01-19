@@ -44,15 +44,11 @@ return {
           add          = { text = "◇" },
           change       = { text = "○" },
           delete       = { text = "✗" },
-          topdelete    = { text = "td?" },
-          changedelete = { text = "cd?" },
         },
         signs_staged = {
           add          = { text = "◆" },
           change       = { text = "●" },
           delete       = { text = "✗" },
-          topdelete    = { text = "std?" },
-          changedelete = { text = "cd?" },
         },
       })
 
