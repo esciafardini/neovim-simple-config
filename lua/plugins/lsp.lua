@@ -44,6 +44,7 @@ return {
           return { buffer = event.buf, desc = desc }
         end
 
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Go To Definition"))
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts("Go To Reference"))
         vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts("Code Actions"))
         vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts("Rename"))

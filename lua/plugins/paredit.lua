@@ -80,14 +80,15 @@ local function wrap_and_position(open, close, insert_mode)
 end
 
 local function wrap_log_spy()
-  wrap_and_position("(", ")", true)
-  vim.cmd("normal! log/spy ")
+  wrap_element("(", ")")
+  findStart("(")
+  vim.cmd("normal! alog/spy ")
 end
 
 local function wrap_log_daff()
-  wrap_and_position("(", ")", true)
-  vim.cmd("normal! log/daff " .. randomVarName() .. " ")
-  vim.cmd("normal! b")
+  wrap_element("(", ")")
+  findStart("(")
+  vim.cmd("normal! alog/daff " .. randomVarName() .. " ")
 end
 
 -- Clean log/spy and log/daff from current buffer
@@ -110,8 +111,8 @@ return {
     { "<localleader>]", function() wrap_and_position("[", "]", false) end,                      desc = "Wrap in brackets",            ft = { "clojure", "fennel", "scheme", "lisp" } },
     { "<localleader>{", function() wrap_and_position("{", "}", false) end,                      desc = "Wrap in braces",              ft = { "clojure", "fennel", "scheme", "lisp" } },
     { "<localleader>}", function() wrap_and_position("{", "}", false) end,                      desc = "Wrap in braces",              ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "(",              function() require("nvim-paredit").api.move_to_prev_element_head() end, desc = "Move to prev element",        ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { ")",              function() require("nvim-paredit").api.move_to_next_element_head() end, desc = "Move to next element",        ft = { "clojure", "fennel", "scheme", "lisp" } },
+    { "(",              function() require("nvim-paredit").api.move_to_parent_form_start() end, desc = "Go to parent form start",     ft = { "clojure", "fennel", "scheme", "lisp" } },
+    { ")",              function() require("nvim-paredit").api.move_to_parent_form_end() end,   desc = "Go to parent form end",       ft = { "clojure", "fennel", "scheme", "lisp" } },
     { "<leader>ls",     wrap_log_spy,                                                           desc = "Log Spy",                     ft = "clojure" },
     { "<leader>ld",     wrap_log_daff,                                                          desc = "Log Daff",                    ft = "clojure" },
     { "<leader>lS",     clean_logs_in_buffer,                                                   desc = "Clean logs in buffer",        ft = "clojure" },
