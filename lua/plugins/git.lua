@@ -21,24 +21,15 @@ local function select_to_stage_or_unstage()
   local lnum = vim.api.nvim_win_get_cursor(0)[1]
 
   local bcache = cache[bufnr]
-  if not bcache then
-    vim.notify("No gitsigns cache for this buffer")
-    return
-  end
+  if not bcache then return end
 
   local unstaged_hunks = bcache.hunks or {}
   local staged_hunks = bcache.hunks_staged or {}
+  local all_hunks = vim.tbl_extend("force", unstaged_hunks, staged_hunks)
 
-  for _, hunk in ipairs(unstaged_hunks) do
+  for _, hunk in ipairs(all_hunks) do
     if cursor_in_hunk(lnum, hunk) then
       gitsigns.stage_hunk()
-      return
-    end
-  end
-
-  for _, hunk in ipairs(staged_hunks) do
-    if cursor_in_hunk(lnum, hunk) then
-      gitsigns.reset_hunk()   -- undo_stage_hunk only works for session-staged hunks
       return
     end
   end
