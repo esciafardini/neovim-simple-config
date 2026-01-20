@@ -1,7 +1,5 @@
 -- Disable unused providers
--- --lol
 vim.g.loaded_node_provider = 0
--- no lol
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -40,7 +38,6 @@ vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
 vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
-
 vim.keymap.del("n", "gc")
 
 -- yank links up/down

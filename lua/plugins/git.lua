@@ -3,34 +3,47 @@ local function hunk_nav()
   vim.cmd("Gitsigns next_hunk")
 end
 
+local function cursor_in_hunk(lnum, hunk)
+  if hunk.added.count > 0 then
+    return lnum >= hunk.added.start and lnum <= hunk.added.start + hunk.added.count - 1
+  else
+    -- delete hunk: sign shows at added.start (line after deletion)
+    -- check current line OR line before (where you might be positioned)
+    return lnum == hunk.added.start or lnum == hunk.added.start - 1 or lnum == hunk.added.start + 1
+  end
+end
+
 local function select_to_stage_or_unstage()
   local cache = require('gitsigns.cache').cache
+  local gitsigns = require('gitsigns')
 
-  -- where am I?
   local bufnr = vim.api.nvim_get_current_buf()
-  local lnum = vim.api.nvim_win_get_cursor(0)[1] -- current lnum (yes, good.)
+  local lnum = vim.api.nvim_win_get_cursor(0)[1]
 
-  -- hunks!
-  local unstaged_hunks = cache[bufnr].hunks or {}
-  local staged_hunks = cache[bufnr].hunks_staged or {}
+  local bcache = cache[bufnr]
+  if not bcache then
+    vim.notify("No gitsigns cache for this buffer")
+    return
+  end
+
+  local unstaged_hunks = bcache.hunks or {}
+  local staged_hunks = bcache.hunks_staged or {}
 
   for _, hunk in ipairs(unstaged_hunks) do
-    if lnum >= hunk.added.start and lnum < hunk.added.start + hunk.added.count then
-      vim.cmd("Gitsigns select_hunk")
-      vim.cmd("Gitsigns stage_hunk")
+    if cursor_in_hunk(lnum, hunk) then
+      gitsigns.stage_hunk()
       return
     end
   end
 
   for _, hunk in ipairs(staged_hunks) do
-    if lnum >= hunk.added.start and lnum < hunk.added.start + hunk.added.count then
-      vim.cmd("Gitsigns select_hunk")
-      vim.cmd("Gitsigns undo_stage_hunk")
+    if cursor_in_hunk(lnum, hunk) then
+      gitsigns.reset_hunk()   -- undo_stage_hunk only works for session-staged hunks
       return
     end
   end
 
-  vim.notify("there's no hunk here!!")
+  vim.notify("No hunk at cursor position")
 end
 
 return {
