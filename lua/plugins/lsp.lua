@@ -16,7 +16,7 @@ return {
     })
     -- nvim-lspconfig settings
     vim.diagnostic.config({
-      virtual_text = false,
+      virtual_text = true,
       virtual_lines = false,
     })
     -- Server configs
