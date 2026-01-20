@@ -34,6 +34,7 @@ return {
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = "BufReadPre",
     config = function()
       require("nvim-treesitter.configs").setup({
         ensure_installed = { "c", "clojure", "html", "javascript", "lua", "query", "ruby", "vim", "vimdoc" },

@@ -26,6 +26,12 @@ return {
         lualine_c = {
           'filename',
           { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
+          {
+            function()
+              return vim.bo.filetype:match('gitsigns') and 'BLAME' or ''
+            end,
+            color = { fg = '#ff9e64' },
+          },
         },
         lualine_x = {
           { 'filetype',  icon_only = true },
@@ -34,8 +40,4 @@ return {
       },
     })
   end,
-  keys = {
-    { "<S-l>", ":bnext<CR>", desc = "Next buffer" },
-    { "<S-h>", ":bprev<CR>", desc = "Previous buffer" },
-  },
 }

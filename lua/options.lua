@@ -33,6 +33,8 @@ vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
+vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
 vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
 vim.keymap.del("n", "gc")
@@ -46,7 +48,7 @@ vim.keymap.set('n', '<leader>yk', function()
     return
   end
   vim.cmd(':' .. target .. 'y')
-  vim.notify("Yanked line " .. target)
+  vim.notify("Yanked line " .. vim.v.count1 .. " above current")
 end, { desc = "Yank line above" })
 
 vim.keymap.set('n', '<leader>yj', function()
@@ -57,7 +59,7 @@ vim.keymap.set('n', '<leader>yj', function()
     return
   end
   vim.cmd(':' .. target .. 'y')
-  vim.notify("Yanked line " .. target)
+  vim.notify("Yanked line " .. vim.v.count1 .. " below current")
 end, { desc = "Yank line below" })   -- Commands
 
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
