@@ -1,6 +1,6 @@
 local function hunk_nav()
-  vim.notify("Nav'ing to next hunk")
   vim.cmd("Gitsigns next_hunk")
+  vim.notify("Navigated to next hunk")
 end
 
 local function cursor_in_hunk(lnum, hunk)
