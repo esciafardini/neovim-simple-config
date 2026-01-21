@@ -57,6 +57,8 @@ return {
   },
   {
     "esciafardini/gitsigns.nvim",
+    --dir = "/Users/remote-dev/Projects/gitsigns.nvim",
+    -- ^ switch to this for dev
     event = "BufReadPre",
     config = function()
       local gitsigns = require("gitsigns")
@@ -89,7 +91,7 @@ return {
       vim.api.nvim_set_hl(0, "GitSignsStagedDelete", { fg = "#2DBA4E" })
     end,
     keys = {
-      { "<leader>gb", "<cmd>Gitsigns blame_line<cr>",         desc = "Git Blame Line" },
+      { "<leader>gb", "<cmd>Gitsigns blame_line<cr>",          desc = "Git Blame Line" },
       { "<leader>gB", "<cmd>Gitsigns blame<cr>",               desc = "Git Blame Toggle" },
       { "<leader>gp", "<cmd>Gitsigns preview_hunk_inline<cr>", desc = "Git Preview" },
       { "<leader>gn", hunk_nav,                                desc = "Git Nav To Next Hunk" },
