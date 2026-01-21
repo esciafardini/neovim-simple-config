@@ -89,20 +89,3 @@ vim.api.nvim_create_autocmd("FileType", {
       { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
   end
 })
-
-vim.fn.jobstart(
-  'curl -s https://api.github.com/repos/lewis6991/gitsigns.nvim/releases/latest',
-  {
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      local json = vim.fn.json_decode(table.concat(data))
-      local remote_version = json.tag_name
-      local local_version = "v2.0.0"  -- your version
-      if remote_version ~= local_version then
-        vim.notify("gitsigns update available: " .. remote_version)
-      else
-        vim.notify("gitsigns still on version " .. remote_version)
-      end
-    end,
-  }
-)

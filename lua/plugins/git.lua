@@ -56,7 +56,7 @@ return {
     }
   },
   {
-    dir = "~/projects/gitsigns.nvim",
+    "esciafardini/gitsigns.nvim",
     event = "BufReadPre",
     config = function()
       local gitsigns = require("gitsigns")
