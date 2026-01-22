@@ -90,3 +90,17 @@ vim.api.nvim_create_autocmd("FileType", {
       { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
   end
 })
+
+-- Lisp bracket auto-pairing
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "clojure", "clojurescript", "edn", "lisp", "scheme", "racket", "fennel" },
+  callback = function()
+    local bracket_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
+    for open, close in pairs(bracket_pairs) do
+      vim.keymap.set("i", open, function()
+        local keys = vim.api.nvim_replace_termcodes(open .. close .. "<Left>", true, false, true)
+        vim.api.nvim_feedkeys(keys, "n", false)
+      end, { buffer = true })
+    end
+  end
+})
