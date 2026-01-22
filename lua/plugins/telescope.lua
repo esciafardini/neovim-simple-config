@@ -9,10 +9,11 @@ return {
     "nvim-lua/plenary.nvim",
   },
   config = function()
-    require("telescope").load_extension("fzf")
-    require("telescope").load_extension("ui-select")
-    require("telescope").load_extension("smart_open")
-    require("telescope").setup({
+    local telescope = require("telescope")
+    telescope.setup({
+      defaults = {
+        selection_strategy = "row",
+      },
       extensions = {
         fzf = {
           fuzzy = true,
@@ -22,12 +23,16 @@ return {
         },
         smart_open = {
           match_algorithm = "fzf",
+          show_scores = true,
         },
         ["ui-select"] = {
           require("telescope.themes").get_dropdown({}),
         },
       },
     })
+    telescope.load_extension("fzf")
+    telescope.load_extension("ui-select")
+    telescope.load_extension("smart_open")
   end,
   keys = {
     { "<leader>ff",       "<cmd>Telescope smart_open<cr>", desc = "Find Files (Smart)" },
