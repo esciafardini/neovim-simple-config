@@ -14,6 +14,7 @@ return {
     { "<leader>du", "<cmd>DBUIToggle<cr>",        desc = "Toggle DB UI" },
     { "<leader>da", "<cmd>DBUIAddConnection<cr>", desc = "Add DB connection" },
     { "<leader>df", "<cmd>DBUIFindBuffer<cr>",    desc = "Find DB buffer" },
+    { "<leader>dr", "<cmd>DBUI_ExecuteQuery<cr>", mode = { "n", "v" },       desc = "Run query" },
   },
   init = function()
     vim.g.db_ui_use_nerd_fonts = 1
@@ -22,7 +23,6 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = { "sql", "mysql", "plsql" },
       callback = function()
-        vim.bo.omnifunc = "vim_dadbod_completion#omni"
       end,
     })
     vim.api.nvim_create_autocmd("BufEnter", {

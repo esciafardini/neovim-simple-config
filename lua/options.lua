@@ -95,8 +95,8 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "clojure", "clojurescript", "edn", "lisp", "scheme", "racket", "fennel" },
   callback = function()
-    local bracket_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
-    for open, close in pairs(bracket_pairs) do
+    local paren_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
+    for open, close in pairs(paren_pairs) do
       vim.keymap.set("i", open, function()
         local keys = vim.api.nvim_replace_termcodes(open .. close .. "<Left>", true, false, true)
         vim.api.nvim_feedkeys(keys, "n", false)
