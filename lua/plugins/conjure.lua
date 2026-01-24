@@ -31,11 +31,12 @@ return {
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
     vim.g["conjure#log#filetype"] = "clojure"
     vim.g["conjure#filetype#sql"] = false --use dadbod instead :)
+    vim.g["conjure#filetypes"] = { "clojure", "fennel", "python", "lua" }
+    vim.g["conjure#filetype_blacklist"] = { "sql" }
+
+    vim.keymap.set("n", "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", { desc = "Connect To Service" })
+    vim.keymap.set("n", "<leader>cj", ":ConjureConnect local.aclaimant.com 7001<cr>", { desc = "Connect To Jobs" })
+    vim.keymap.set("n", "<leader>ca", ":ConjureConnect local.aclaimant.com 7002<cr>", { desc = "Connect To Alerter" })
+    vim.keymap.set("n", "<leader>cS", connect_to_shadow_app, { desc = "Connect To Shadow CLJS App" })
   end,
-  keys = {
-    { "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", desc = "Connect To Service" },
-    { "<leader>cj", ":ConjureConnect local.aclaimant.com 7001<cr>", desc = "Connect To Jobs" },
-    { "<leader>ca", ":ConjureConnect local.aclaimant.com 7002<cr>", desc = "Connect To Alerter" },
-    { "<leader>cS", connect_to_shadow_app,                          desc = "Connect To Shadow CLJS App" },
-  }
 }

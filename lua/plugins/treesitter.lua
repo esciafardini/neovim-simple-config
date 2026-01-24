@@ -52,9 +52,7 @@ return {
           },
         },
       })
+      vim.keymap.set("n", "<leader>sn", get_node, { desc = "Get node" })
     end,
-    keys = {
-      { "<leader>sn", get_node, desc = "Get node" },
-    },
   }
 }

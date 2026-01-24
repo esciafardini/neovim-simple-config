@@ -42,14 +42,13 @@ return {
         vim.keymap.set("n", "<localleader>{", function() surround_node("{", "}") end, opts)
       end,
     })
+
+    vim.keymap.set("x", "S", [[:<C-u>lua MiniSurround.add('visual')<CR>]], { silent = true })
+    vim.keymap.set("n", ",'", "saiw'", { remap = true, desc = "Surround word with '" })
+    vim.keymap.set("n", ',"', 'saiw"', { remap = true, desc = 'Surround word with "' })
+    vim.keymap.set("n", ",`", "saiw`", { remap = true, desc = "Surround word with `" })
+    vim.keymap.set("n", ",s'", "sais'", { remap = true, desc = "Surround sentence with '" })
+    vim.keymap.set("n", ',s"', 'sais"', { remap = true, desc = 'Surround sentence with "' })
+    vim.keymap.set("n", ",s`", "sais`", { remap = true, desc = "Surround sentence with `" })
   end,
-  keys = {
-    { 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], mode = 'x', silent = true },
-    { ",'", "saiw'", remap = true, desc = "Surround word with '" },
-    { ',"', 'saiw"', remap = true, desc = 'Surround word with "' },
-    { ",`", "saiw`", remap = true, desc = "Surround word with `" },
-    { ",s'", "sais'", remap = true, desc = "Surround sentence with '" },
-    { ',s"', 'sais"', remap = true, desc = 'Surround sentence with "' },
-    { ",s`", "sais`", remap = true, desc = "Surround sentence with `" },
-  },
 }

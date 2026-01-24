@@ -33,22 +33,17 @@ return {
     telescope.load_extension("fzf")
     telescope.load_extension("ui-select")
     telescope.load_extension("smart_open")
+
+    vim.keymap.set("n", "<leader>ff", function()
+      if vim.fn.getcwd() == vim.env.HOME then
+        vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+        return
+      end
+      require("telescope").extensions.smart_open.smart_open()
+    end, { desc = "Find Files (Smart)" })
+    vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>", { desc = "Find Files (All)" })
+    vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "Find Word" })
+    vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffer" })
+    vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
   end,
-  keys = {
-    {
-      "<leader>ff",
-      function()
-        if vim.fn.getcwd() == vim.env.HOME then
-          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
-          return
-        end
-        require("telescope").extensions.smart_open.smart_open()
-      end,
-      desc = "Find Files (Smart)",
-    },
-    { "<leader>fF",       "<cmd>Telescope find_files<cr>", desc = "Find Files (All)" },
-    { "<leader>fw",       "<cmd>Telescope live_grep<cr>",  desc = "Find Word" },
-    { "<leader>fb",       "<cmd>Telescope buffers<cr>",    desc = "Find Buffer" },
-    { "<leader><leader>", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
-  },
 }

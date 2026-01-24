@@ -85,11 +85,12 @@ return {
       },
     }
   end,
-  keys = {
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note" },
-    { "<leader>os", "<cmd>ObsidianSearch<cr>", desc = "Search vault" },
-    { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New note" },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Backlinks" },
-    { "<leader>ot", "<cmd>ObsidianToday<cr>", desc = "Today's note" },
-  },
+  config = function(_, opts)
+    require("obsidian").setup(opts)
+    vim.keymap.set("n", "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", { desc = "Find note" })
+    vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<cr>", { desc = "Search vault" })
+    vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<cr>", { desc = "New note" })
+    vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<cr>", { desc = "Backlinks" })
+    vim.keymap.set("n", "<leader>ot", "<cmd>ObsidianToday<cr>", { desc = "Today's note" })
+  end,
 }

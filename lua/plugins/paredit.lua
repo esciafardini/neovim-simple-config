@@ -104,20 +104,30 @@ end
 return {
   "julienvincent/nvim-paredit",
   ft = { "clojure", "fennel", "scheme", "lisp" },
-  keys = {
-    { "<localleader>w", function() wrap_and_position("(", ")", true) end,                       desc = "Wrap in parens and insert",   ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<localleader>)", function() wrap_and_position("(", ")", false) end,                      desc = "Wrap in parens",              ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<localleader>[", function() wrap_and_position("[", "]", true) end,                       desc = "Wrap in brackets and insert", ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<localleader>]", function() wrap_and_position("[", "]", false) end,                      desc = "Wrap in brackets",            ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<localleader>{", function() wrap_and_position("{", "}", false) end,                      desc = "Wrap in braces",              ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<localleader>}", function() wrap_and_position("{", "}", false) end,                      desc = "Wrap in braces",              ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "(",              function() require("nvim-paredit").api.move_to_parent_form_start() end, desc = "Go to parent form start",     ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { ")",              function() require("nvim-paredit").api.move_to_parent_form_end() end,   desc = "Go to parent form end",       ft = { "clojure", "fennel", "scheme", "lisp" } },
-    { "<leader>ls",     wrap_log_spy,                                                           desc = "Log Spy",                     ft = "clojure" },
-    { "<leader>ld",     wrap_log_daff,                                                          desc = "Log Daff",                    ft = "clojure" },
-    { "<leader>lS",     clean_logs_in_buffer,                                                   desc = "Clean logs in buffer",        ft = "clojure" },
-  },
   config = function()
     require("nvim-paredit").setup({})
+
+    local lisp_fts = { clojure = true, fennel = true, scheme = true, lisp = true }
+
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "clojure", "fennel", "scheme", "lisp" },
+      callback = function()
+        local opts = { buffer = true }
+        vim.keymap.set("n", "<localleader>w", function() wrap_and_position("(", ")", true) end, vim.tbl_extend("force", opts, { desc = "Wrap in parens and insert" }))
+        vim.keymap.set("n", "<localleader>)", function() wrap_and_position("(", ")", false) end, vim.tbl_extend("force", opts, { desc = "Wrap in parens" }))
+        vim.keymap.set("n", "<localleader>[", function() wrap_and_position("[", "]", true) end, vim.tbl_extend("force", opts, { desc = "Wrap in brackets and insert" }))
+        vim.keymap.set("n", "<localleader>]", function() wrap_and_position("[", "]", false) end, vim.tbl_extend("force", opts, { desc = "Wrap in brackets" }))
+        vim.keymap.set("n", "<localleader>{", function() wrap_and_position("{", "}", false) end, vim.tbl_extend("force", opts, { desc = "Wrap in braces" }))
+        vim.keymap.set("n", "<localleader>}", function() wrap_and_position("{", "}", false) end, vim.tbl_extend("force", opts, { desc = "Wrap in braces" }))
+        vim.keymap.set("n", "(", function() require("nvim-paredit").api.move_to_parent_form_start() end, vim.tbl_extend("force", opts, { desc = "Go to parent form start" }))
+        vim.keymap.set("n", ")", function() require("nvim-paredit").api.move_to_parent_form_end() end, vim.tbl_extend("force", opts, { desc = "Go to parent form end" }))
+
+        if vim.bo.filetype == "clojure" then
+          vim.keymap.set("n", "<leader>ls", wrap_log_spy, vim.tbl_extend("force", opts, { desc = "Log Spy" }))
+          vim.keymap.set("n", "<leader>ld", wrap_log_daff, vim.tbl_extend("force", opts, { desc = "Log Daff" }))
+          vim.keymap.set("n", "<leader>lS", clean_logs_in_buffer, vim.tbl_extend("force", opts, { desc = "Clean logs in buffer" }))
+        end
+      end,
+    })
   end,
 }

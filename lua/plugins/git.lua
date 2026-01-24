@@ -64,6 +64,12 @@ return {
       local gitsigns = require("gitsigns")
 
       gitsigns.setup({
+        on_attach = function(bufnr)
+          local filepath = vim.api.nvim_buf_get_name(bufnr)
+          if filepath:find(vim.fn.expand("~") .. "/obsidian", 1, true) then
+            return false
+          end
+        end,
         signs = {
           add          = { text = "+" },
           change       = { text = "|" },
@@ -89,16 +95,15 @@ return {
       vim.api.nvim_set_hl(0, "GitSignsStagedAdd", { fg = "#2DBA4E" })
       vim.api.nvim_set_hl(0, "GitSignsStagedChange", { fg = "#2DBA4E" })
       vim.api.nvim_set_hl(0, "GitSignsStagedDelete", { fg = "#2DBA4E" })
+
+      vim.keymap.set("n", "<leader>gb", "<cmd>Gitsigns blame_line<cr>", { desc = "Git Blame Line" })
+      vim.keymap.set("n", "<leader>gB", "<cmd>Gitsigns blame<cr>", { desc = "Git Blame Toggle" })
+      vim.keymap.set("n", "<leader>gp", "<cmd>Gitsigns preview_hunk_inline<cr>", { desc = "Git Preview" })
+      vim.keymap.set("n", "<leader>gn", hunk_nav, { desc = "Git Nav To Next Hunk" })
+      vim.keymap.set("n", "<leader>gs", select_to_stage_or_unstage, { desc = "Git Stage/Unstage Hunk" })
+      vim.keymap.set("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Git Reset Hunk" })
+      vim.keymap.set("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Git Stage Buffer" })
+      vim.keymap.set("n", "<leader>gR", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Git Reset Buffer" })
     end,
-    keys = {
-      { "<leader>gb", "<cmd>Gitsigns blame_line<cr>",          desc = "Git Blame Line" },
-      { "<leader>gB", "<cmd>Gitsigns blame<cr>",               desc = "Git Blame Toggle" },
-      { "<leader>gp", "<cmd>Gitsigns preview_hunk_inline<cr>", desc = "Git Preview" },
-      { "<leader>gn", hunk_nav,                                desc = "Git Nav To Next Hunk" },
-      { "<leader>gs", select_to_stage_or_unstage,              desc = "Git Stage/Unstage Hunk" },
-      { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>",          desc = "Git Reset Hunk" },
-      { "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>",        desc = "Git Stage Buffer" },
-      { "<leader>gR", "<cmd>Gitsigns reset_buffer_index<cr>",  desc = "Git Reset Buffer" },
-    },
   },
 }
