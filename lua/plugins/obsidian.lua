@@ -16,6 +16,9 @@ return {
         if vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true) then
           vim.opt_local.conceallevel = 2
           vim.opt_local.concealcursor = "nvc"
+          vim.opt_local.foldmethod = "indent"
+          vim.opt_local.foldlevel = 0
+          vim.opt_local.foldtext = "(v:foldend - v:foldstart + 1) .. ' lines'"
         end
       end,
     })
