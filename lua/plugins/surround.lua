@@ -30,6 +30,18 @@ return {
         suffix_next = '',    -- disable 'n' suffix (dsn, csn, etc.)
       },
     })
+    -- Node wrapping keymaps for non-lisp filetypes (paredit handles lisp)
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "*",
+      callback = function()
+        if lisp_fts[vim.bo.filetype] then return end
+        local opts = { buffer = true }
+        vim.keymap.set("n", "<localleader>w", function() surround_node("(", ")") end, opts)
+        vim.keymap.set("n", "<localleader>(", function() surround_node("(", ")") end, opts)
+        vim.keymap.set("n", "<localleader>[", function() surround_node("[", "]") end, opts)
+        vim.keymap.set("n", "<localleader>{", function() surround_node("{", "}") end, opts)
+      end,
+    })
   end,
   keys = {
     { 'S', [[:<C-u>lua MiniSurround.add('visual')<CR>]], mode = 'x', silent = true },
@@ -39,10 +51,5 @@ return {
     { ",s'", "sais'", remap = true, desc = "Surround sentence with '" },
     { ',s"', 'sais"', remap = true, desc = 'Surround sentence with "' },
     { ",s`", "sais`", remap = true, desc = "Surround sentence with `" },
-    -- "good enough" wrapping of elements in non-clj files
-    { "<localleader>w", function() surround_node("(", ")") end, desc = "Surround node with ()" },
-    { "<localleader>(", function() surround_node("(", ")") end, desc = "Surround node with ()" },
-    { "<localleader>[", function() surround_node("[", "]") end, desc = "Surround node with []" },
-    { "<localleader>{", function() surround_node("{", "}") end, desc = "Surround node with {}" },
   },
 }

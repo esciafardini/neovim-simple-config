@@ -20,6 +20,7 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
       end,
     },
+    "kristijanhusak/vim-dadbod-completion",
   },
   version = "1.*",
   opts = {
