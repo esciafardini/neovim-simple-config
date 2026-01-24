@@ -4,27 +4,37 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
--- Vim (Old World)
+-- Old World Vim 
+-- Leader Keys
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
+-- Clipboard (yank to system clipboard)
 vim.opt.clipboard = "unnamedplus"
+-- Cursor Display (highlight the line number)
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "number"
-vim.opt.expandtab = true
-vim.opt.inccommand = "split"
-vim.opt.ignorecase = true
+-- Line numbers (yes & relative)
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.scrolloff = 10
+-- Indentation (tabs are actually 2 spaces, and tab characters = 2 spaces long)
+vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+-- Search (case-insensitive unless there are capital letters)
 vim.opt.smartcase = true
+vim.opt.ignorecase = true
+-- Find and replace preview
+vim.opt.inccommand = "split"
+-- Scrolling (10 line buffer scrolling, don't wrap when text goes off screen)
+vim.opt.scrolloff = 10
+vim.opt.wrap = false
+-- Window Split Direction
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.tabstop = 2
+-- Misc (Use modern colors, persist undo history, visual block mode extension)
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.virtualedit = "block"
-vim.opt.wrap = false
 
 -- Keymaps
 vim.keymap.set("n", "c(", "f(ci(", { desc = "change inside next parens" })
@@ -34,6 +44,7 @@ vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
+vim.keymap.set("n", "<leader>sr", ":%s/", { desc = "Search and replace" })
 vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
