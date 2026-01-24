@@ -35,10 +35,20 @@ return {
     telescope.load_extension("smart_open")
   end,
   keys = {
-    { "<leader>ff",       "<cmd>Telescope smart_open<cr>", desc = "Find Files (Smart)" },
+    {
+      "<leader>ff",
+      function()
+        if vim.fn.getcwd() == vim.env.HOME then
+          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+          return
+        end
+        require("telescope").extensions.smart_open.smart_open()
+      end,
+      desc = "Find Files (Smart)",
+    },
     { "<leader>fF",       "<cmd>Telescope find_files<cr>", desc = "Find Files (All)" },
     { "<leader>fw",       "<cmd>Telescope live_grep<cr>",  desc = "Find Word" },
     { "<leader>fb",       "<cmd>Telescope buffers<cr>",    desc = "Find Buffer" },
-    { "<leader><leader>", "<cmd>Telescope oldfiles<cr>",   desc = "Open Telescope" },
+    { "<leader><leader>", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
   },
 }

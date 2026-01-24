@@ -37,7 +37,13 @@ vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<leader>ar", "<cmd>Telescope smart_open<cr>", { desc = "Recent files" })
+vim.keymap.set("n", "<leader>ar", function()
+  if vim.fn.getcwd() == vim.env.HOME then
+    vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+    return
+  end
+  require("telescope").extensions.smart_open.smart_open()
+end, { desc = "Recent files" })
 vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
 vim.keymap.del("n", "gc")
 
@@ -74,9 +80,28 @@ vim.api.nvim_create_user_command("W", "w", {})
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
-      vim.keymap.set("n", "r", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Recent files" })
-      vim.keymap.set("n", "f", "<cmd>Telescope smart_open<cr>", { buffer = 0, desc = "Find files" })
-      vim.keymap.set("n", "w", "<cmd>Telescope live_grep<cr>", { buffer = 0, desc = "Find word" })
+      local in_home = vim.fn.getcwd() == vim.env.HOME
+      vim.keymap.set("n", "r", function()
+        if in_home then
+          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+          return
+        end
+        require("telescope").extensions.smart_open.smart_open()
+      end, { buffer = 0, desc = "Recent files" })
+      vim.keymap.set("n", "f", function()
+        if in_home then
+          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+          return
+        end
+        require("telescope").extensions.smart_open.smart_open()
+      end, { buffer = 0, desc = "Find files" })
+      vim.keymap.set("n", "w", function()
+        if in_home then
+          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
+          return
+        end
+        require("telescope.builtin").live_grep()
+      end, { buffer = 0, desc = "Find word" })
     end
   end
 })
