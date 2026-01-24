@@ -10,15 +10,40 @@ return {
   -- Also load when these commands are invoked
   cmd = { "ObsidianToday", "ObsidianNew", "ObsidianQuickSwitch", "ObsidianSearch" },
   init = function()
+    local function is_obsidian_file()
+      return vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true)
+    end
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "markdown",
       callback = function()
-        if vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true) then
+        if is_obsidian_file() then
           vim.opt_local.conceallevel = 2
-          vim.opt_local.concealcursor = "nvc"
+          vim.opt_local.concealcursor = "nv"
+          vim.opt_local.shiftwidth = 2
+          vim.opt_local.tabstop = 2
           vim.opt_local.foldmethod = "indent"
           vim.opt_local.foldlevel = 0
           vim.opt_local.foldtext = "(v:foldend - v:foldstart + 1) .. ' lines'"
+        end
+      end,
+    })
+
+    -- Persist fold state for obsidian files
+    vim.api.nvim_create_autocmd("BufWinLeave", {
+      pattern = vim.fn.expand("~") .. "/obsidian/**.md",
+      callback = function()
+        if is_obsidian_file() then
+          vim.cmd("silent! mkview")
+        end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      pattern = vim.fn.expand("~") .. "/obsidian/**.md",
+      callback = function()
+        if is_obsidian_file() then
+          vim.cmd("silent! loadview")
         end
       end,
     })
