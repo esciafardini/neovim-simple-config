@@ -1,8 +1,7 @@
 return {
-  -- completion UI (the popup menu, sources, keymaps)
-  "saghen/blink.cmp",
+  "saghen/blink.cmp", -- the UI pop-up and shortcut provider
   dependencies = {
-    { -- Neovim Lua API completions (for vim.api.* suggestions)
+    {
       "folke/lazydev.nvim",
       ft = "lua",
       opts = {
@@ -11,8 +10,10 @@ return {
         },
       },
     },
-    { -- LuaSnip = snippet engine (expands snippets)
+    {
       "L3MON4D3/LuaSnip",
+      -- a snippet engine
+      -- expands the snippets
       dependencies = { "rafamadriz/friendly-snippets" },
       version = "v2.*",
       build = "make install_jsregexp",
@@ -24,12 +25,12 @@ return {
   },
   version = "1.*",
   opts = {
-    snippets = { preset = "luasnip" },
-    signature = { enabled = true },
+    snippets = { preset = "luasnip" }, --use luasnip as snippet engine
+    signature = { enabled = true }, --function signature help
     keymap = {
       preset = "default",
-      ["<C-k>"] = { "fallback" },
-      ["<Tab>"] = { "snippet_forward", "accept", "fallback" },
+      ["<C-k>"] = { "fallback" }, -- keep digraphs around
+      ["<Tab>"] = { "snippet_forward", "accept", "fallback" }, -- snippet forward jumps to next position, accept accepts in blink
       ["<C-b>"] = { "select_prev", "fallback" },
       ["<C-n>"] = { "select_next", "fallback" },
     },
@@ -42,24 +43,27 @@ return {
       },
       trigger = {
         show_on_keyword = false,
-        show_on_trigger_character = false,
+        show_on_trigger_character = true,
       },
     },
     sources = {
-      default = { "buffer", "lazydev", "lsp", "path", "snippets" },
+      -- default sources for blink
+      default = { "buffer", "lsp", "path", "snippets", "lazydev" },
+      -- overrides for sources for filetypes
       per_filetype = {
         sql = { "dadbod", "buffer" },
         mysql = { "dadbod", "buffer" },
         plsql = { "dadbod", "buffer" },
       },
       providers = {
+        -- these providers don't work out of the box -- must specify
         lazydev = {
-          name = "LazyDev",
+          name = "Neovim Lua",
           module = "lazydev.integrations.blink",
           score_offset = 100,
         },
         dadbod = {
-          name = "Dadbod",
+          name = "SQL",
           module = "vim_dadbod_completion.blink",
           score_offset = 100,
         },
@@ -67,5 +71,6 @@ return {
     },
     fuzzy = { implementation = "prefer_rust_with_warning" }
   },
+  -- don't overwrite sources, merge instead (just in case)
   opts_extend = { "sources.default" }
 }

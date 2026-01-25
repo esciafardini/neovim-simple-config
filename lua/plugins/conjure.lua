@@ -23,9 +23,7 @@ end
 return {
   "Olical/conjure",
   ft = { "clojure", "fennel", "python", "lua" },
-  -- init happens BEFORE load
   init = function()
-    -- vim.g loads before plugins, so need be set ahead of time
     vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
     vim.g["conjure#extract#tree_sitter#enabled"] = true
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
