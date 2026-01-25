@@ -104,6 +104,7 @@ return {
       vim.keymap.set("n", "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Git Reset Hunk" })
       vim.keymap.set("n", "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Git Stage Buffer" })
       vim.keymap.set("n", "<leader>gR", "<cmd>Gitsigns reset_buffer_index<cr>", { desc = "Git Reset Buffer" })
+      vim.keymap.set("n", "<leader>gf", "<cmd>Gitsigns refresh<cr>", { desc = "Git Refresh" })
     end,
   },
 }
