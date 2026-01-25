@@ -48,6 +48,7 @@ vim.keymap.set("n", "<leader>sr", ":%s/", { desc = "Search and replace" })
 vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
+-- dashboard replica
 vim.keymap.set("n", "<leader>ar", function()
   if vim.fn.getcwd() == vim.env.HOME then
     vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
@@ -129,7 +130,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Lisp bracket auto-pairing
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "clojure", "clojurescript", "edn", "lisp", "scheme", "racket", "fennel" },
+  pattern = { "*" },
   callback = function()
     local paren_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
     for open, close in pairs(paren_pairs) do

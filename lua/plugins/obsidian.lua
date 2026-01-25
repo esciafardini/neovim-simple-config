@@ -90,6 +90,7 @@ return {
     { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault"  },
     { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note"  },
     { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks"  },
-    { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" }
+    { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" },
+    { "<leader>oy", "<cmd>ObsidianYesterday<cr>",   desc = "Yesterday's note" }
   },
 }
