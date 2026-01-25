@@ -1,6 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  cmd = { "Telescope" },
+  event = "VeryLazy",
   dependencies = {
     "kkharji/sqlite.lua",
     "nvim-telescope/telescope-fzf-native.nvim",
