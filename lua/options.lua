@@ -49,74 +49,13 @@ vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
 -- dashboard replica
-vim.keymap.set("n", "<leader>ar", function()
-  if vim.fn.getcwd() == vim.env.HOME then
-    vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
-    return
-  end
-  require("telescope").extensions.smart_open.smart_open()
-end, { desc = "Recent files" })
-vim.keymap.set("n", "<leader>r", "<cmd>Telescope oldfiles<cr>", { desc = "Recent files" })
 vim.keymap.del("n", "gc")
-
--- yank links up/down
-vim.keymap.set('n', '<leader>yk', function()
-  local current = vim.fn.line('.')
-  local target = current - vim.v.count1
-  if target < 1 then
-    vim.notify("No line " .. vim.v.count1 .. " above", vim.log.levels.WARN)
-    return
-  end
-  vim.cmd(':' .. target .. 'y')
-  vim.notify("Yanked line " .. vim.v.count1 .. " above current")
-end, { desc = "Yank line above" })
-
-vim.keymap.set('n', '<leader>yj', function()
-  local current = vim.fn.line('.')
-  local target = current + vim.v.count1
-  if target > vim.fn.line('$') then
-    vim.notify("No line " .. vim.v.count1 .. " below", vim.log.levels.WARN)
-    return
-  end
-  vim.cmd(':' .. target .. 'y')
-  vim.notify("Yanked line " .. vim.v.count1 .. " below current")
-end, { desc = "Yank line below" }) -- Commands
 
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})
 vim.api.nvim_create_user_command("WQ", "wq", {})
 vim.api.nvim_create_user_command("Q", "q", {})
 vim.api.nvim_create_user_command("W", "w", {})
-
--- Start screen keymap (like Dashboard)
-vim.api.nvim_create_autocmd("VimEnter", {
-  callback = function()
-    if vim.fn.argc() == 0 and vim.fn.line2byte('$') == -1 then
-      local in_home = vim.fn.getcwd() == vim.env.HOME
-      vim.keymap.set("n", "r", function()
-        if in_home then
-          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
-          return
-        end
-        require("telescope").extensions.smart_open.smart_open()
-      end, { buffer = 0, desc = "Recent files" })
-      vim.keymap.set("n", "f", function()
-        if in_home then
-          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
-          return
-        end
-        require("telescope").extensions.smart_open.smart_open()
-      end, { buffer = 0, desc = "Find files" })
-      vim.keymap.set("n", "w", function()
-        if in_home then
-          vim.notify("Not in ~, use a project directory", vim.log.levels.WARN)
-          return
-        end
-        require("telescope.builtin").live_grep()
-      end, { buffer = 0, desc = "Find word" })
-    end
-  end
-})
 
 -- Prevent Bad Formatting for Clojure Routes
 vim.api.nvim_create_autocmd("FileType", {
@@ -140,4 +79,13 @@ vim.api.nvim_create_autocmd("FileType", {
       end, { buffer = true })
     end
   end
+})
+
+vim.api.nvim_set_hl(0, "YankHighlight", { bg = "#3d3160", fg = "#76946A" })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = "Highlight when yanking it",
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.hl.on_yank({ higroup = "YankHighlight", timeout = 1000 })
+  end,
 })

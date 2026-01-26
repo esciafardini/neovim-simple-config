@@ -76,6 +76,10 @@ return {
         folder = "daily",
         template = "daily.md",
       },
+      -- Open URLs in browser
+      follow_url_func = function(url)
+        vim.fn.jobstart({ "open", url })
+      end,
       -- UI: only checked and unchecked (nerd font)
       ui = {
         checkboxes = {
@@ -86,11 +90,10 @@ return {
     }
   end,
   keys = {
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note"  },
-    { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault"  },
-    { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note"  },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks"  },
+    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note" },
+    { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault" },
+    { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note" },
+    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks" },
     { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" },
-    { "<leader>oy", "<cmd>ObsidianYesterday<cr>",   desc = "Yesterday's note" }
-  },
+    { "<leader>oy", "<cmd>ObsidianToday -1<cr>",    desc = "Yesterday's note" } },
 }

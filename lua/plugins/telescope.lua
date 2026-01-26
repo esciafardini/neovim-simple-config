@@ -44,6 +44,6 @@ return {
     vim.keymap.set("n", "<leader>fF", "<cmd>Telescope find_files<cr>", { desc = "Find Files (All)" })
     vim.keymap.set("n", "<leader>fw", "<cmd>Telescope live_grep<cr>", { desc = "Find Word" })
     vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find Buffer" })
-    vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
+    vim.keymap.set("n", "<leader>ar", "<cmd>Telescope oldfiles<cr>", { desc = "Recent Files" })
   end,
 }
