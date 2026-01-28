@@ -2,30 +2,26 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "mason-org/mason.nvim",
-    -- :Mason -> UI to browse, install, update packages
     "mason-org/mason-lspconfig.nvim",
-    -- ensure_installed: declarative list, auto-installs on startup
-    -- Auto-starts servers when you open matching filetypes
   },
   config = function()
-    -- Mason (lsp manager):
     require("mason").setup()
-    -- Bridge to wire up LSPs from Mason to nvim-lsp & create relevant autocommands:
     require("mason-lspconfig").setup({
       ensure_installed = { "clojure_lsp", "lua_ls", "ruby_lsp" }
     })
-    -- nvim-lspconfig settings
+
     vim.diagnostic.config({
       virtual_text = true,
       virtual_lines = false,
     })
-    -- Server configs
+
     vim.lsp.config("ruby_lsp", {
       init_options = {
         formatter = "rubocop",
       },
     })
     vim.lsp.config("clojure_lsp", {
+      single_file_support = true,
       flags = {
         debounce_text_changes = 15000,
       },
@@ -38,6 +34,7 @@ return {
         },
       },
     })
+
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(event)
         local opts = function(desc)
@@ -54,11 +51,12 @@ return {
           vim.lsp.buf.format()
           vim.notify("File formatted")
         end, opts("Format File"))
+
         -- format current form
         vim.keymap.set("n", "<leader>lf", function()
           local node = vim.treesitter.get_node()
           local form_types = {
-            "list_lit", "block", "table_constructor"
+            "list_lit", "block", "table_constructor", "function_definition"
           }
           while node do
             local node_type = node:type()
@@ -66,7 +64,7 @@ return {
               if node_type == form_type then
                 local start_row, start_col, end_row, end_col = node:range()
                 vim.lsp.buf.format({
-                  range = {
+                  range = { -- row (line numbers) are index 1
                     ["start"] = { start_row + 1, start_col },
                     ["end"] = { end_row + 1, end_col }
                   }
