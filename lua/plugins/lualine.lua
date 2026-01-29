@@ -50,29 +50,40 @@ return {
     vim.keymap.set("n", "<leader>bl", function() close_buffers("right") end, { desc = "Close buffers to right" })
     vim.keymap.set("n", "<leader>bo", function() close_buffers("other") end, { desc = "Close other buffers" })
   end,
-  opts = {
-    tabline = {
-      lualine_a = {
-        {
-          'buffers',
-        }
-      },
-    },
-    sections = {
-      lualine_c = {
-        'filename',
-        { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
-        {
-          function()
-            return vim.bo.filetype:match('gitsigns') and 'BLAME' or ''
-          end,
-          color = { fg = '#ff9e64' },
+  config = function()
+    local custom_powerline = require 'lualine.themes.powerline_dark'
+    custom_powerline.normal.a.fg = '#FFFFFF'
+    custom_powerline.normal.a.bg = '#1E3A2F'
+    custom_powerline.visual.c.bg = '#1E3A2F'
+    require('lualine').setup({
+      options = { theme = custom_powerline },
+      tabline = {
+        lualine_a = {
+          {
+            'buffers',
+            buffers_color = {
+              active = { fg = '#FFFFFF', bg = '#1E3A2F' },
+              inactive = { fg = '#AAAAAA', bg = '#1a1a1a' },
+            },
+          }
         },
       },
-      lualine_x = {
-        { 'filetype',  icon_only = true },
-        { 'lsp_status' }
+      sections = {
+        lualine_c = {
+          'filename',
+          { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
+          {
+            function()
+              return vim.bo.filetype:match('gitsigns') and 'BLAME' or ''
+            end,
+            color = { fg = '#ff9e64' },
+          },
+        },
+        lualine_x = {
+          { 'filetype',  icon_only = true },
+          { 'lsp_status' }
+        },
       },
-    },
-  },
+    })
+  end,
 }

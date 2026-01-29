@@ -67,6 +67,16 @@ return {
       new_notes_location = "current_dir",
       -- Don't add frontmatter automatically
       disable_frontmatter = true,
+      -- Use title as filename instead of timestamp
+      note_id_func = function(title)
+        if title ~= nil then
+          -- Slugify: lowercase, spaces to dashes, remove special chars
+          return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+        else
+          -- Fallback if no title given
+          return tostring(os.time())
+        end
+      end,
       -- Templates
       templates = {
         folder = vault .. "/templates",
