@@ -12,7 +12,22 @@ end
 
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  lazy = true,
+  lazy = false,
+  init = function()
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        if vim.fn.argc() == 0 then
+          if vim.fn.getcwd() == vim.env.HOME then
+            require("telescope.builtin").oldfiles()
+          else
+            vim.cmd("Neotree filesystem float")
+          end
+        end
+      end,
+    })
+  end,
   dependencies = {
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
@@ -29,6 +44,7 @@ return {
     git_status_async = false,
     enable_git_status = false,
     filesystem = {
+      hijack_netrw_behavior = "open_current",
       filtered_items = {
         visible = true,
         hide_dotfiles = false,
