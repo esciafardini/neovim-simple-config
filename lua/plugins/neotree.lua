@@ -19,11 +19,22 @@ return {
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
         if vim.fn.argc() == 0 then
+          local initial_buf = vim.api.nvim_get_current_buf()
+
           if vim.fn.getcwd() == vim.env.HOME then
             require("telescope.builtin").oldfiles()
           else
             vim.cmd("Neotree filesystem float")
           end
+
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(initial_buf)
+              and vim.api.nvim_buf_get_name(initial_buf) == ""
+              and vim.api.nvim_buf_line_count(initial_buf) <= 1
+              and vim.api.nvim_buf_get_lines(initial_buf, 0, 1, false)[1] == "" then
+              vim.api.nvim_buf_delete(initial_buf, { force = true })
+            end
+          end)
         end
       end,
     })
