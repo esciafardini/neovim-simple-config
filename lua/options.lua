@@ -35,6 +35,8 @@ vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.virtualedit = "block"
+-- for obsidian to stfu
+vim.opt.conceallevel = 1
 
 -- Keymaps
 vim.keymap.set("n", "c(", "f(ci(", { desc = "change inside next parens" })
@@ -99,3 +101,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 require('whitespace').setup()
 require('targets').setup()
+
+vim.filetype.add({
+  extension = {
+    fnl = "fennel",
+    fnlm = "fennel",
+  },
+})
+
+-- Save foldes
+vim.api.nvim_create_autocmd({ "BufWinLeave" }, {
+  pattern = { "*.*" },
+  desc = "Save view (folds) when closing file",
+  command = "mkview"
+})
+
+vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+  pattern = { "*.*" },
+  desc = "Load view (folds) when opening file",
+  command = "silent! loadview"
+})
