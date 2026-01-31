@@ -13,6 +13,7 @@ return {
     vim.diagnostic.config({
       virtual_text = true,
       virtual_lines = false,
+      update_in_insert = false,  -- don't update diagnostics while typing
     })
 
     vim.lsp.config("ruby_lsp", {
@@ -23,7 +24,8 @@ return {
     vim.lsp.config("clojure_lsp", {
       single_file_support = true,
       flags = {
-        debounce_text_changes = 15000,
+        debounce_text_changes = 500,       -- 500ms debounce (was 15s - too long causes stale state)
+        allow_incremental_sync = false,    -- send full doc, reduces race conditions
       },
     })
     vim.lsp.config("lua_ls", {

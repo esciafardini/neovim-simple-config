@@ -103,14 +103,11 @@ end
 
 return {
   "julienvincent/nvim-paredit",
-  ft = { "clojure", "fennel", "scheme", "lisp" },
+  ft = { "clojure", "fennel", "scheme", "lisp" , "query" },
   config = function()
     require("nvim-paredit").setup({})
-
-    local lisp_fts = { clojure = true, fennel = true, scheme = true, lisp = true }
-
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "clojure", "fennel", "scheme", "lisp" },
+      pattern = { "clojure", "fennel", "scheme", "lisp" , "query" },
       callback = function()
         local opts = { buffer = true }
         vim.keymap.set("n", "<localleader>w", function() wrap_and_position("(", ")", true) end, vim.tbl_extend("force", opts, { desc = "Wrap in parens and insert" }))
@@ -121,7 +118,6 @@ return {
         vim.keymap.set("n", "<localleader>}", function() wrap_and_position("{", "}", false) end, vim.tbl_extend("force", opts, { desc = "Wrap in braces" }))
         vim.keymap.set("n", "(", function() require("nvim-paredit").api.move_to_parent_form_start() end, vim.tbl_extend("force", opts, { desc = "Go to parent form start" }))
         vim.keymap.set("n", ")", function() require("nvim-paredit").api.move_to_parent_form_end() end, vim.tbl_extend("force", opts, { desc = "Go to parent form end" }))
-
         if vim.bo.filetype == "clojure" then
           vim.keymap.set("n", "<leader>ls", wrap_log_spy, vim.tbl_extend("force", opts, { desc = "Log Spy" }))
           vim.keymap.set("n", "<leader>ld", wrap_log_daff, vim.tbl_extend("force", opts, { desc = "Log Daff" }))

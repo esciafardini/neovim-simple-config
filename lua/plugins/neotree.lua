@@ -19,22 +19,15 @@ return {
     vim.api.nvim_create_autocmd("VimEnter", {
       callback = function()
         if vim.fn.argc() == 0 then
-          local initial_buf = vim.api.nvim_get_current_buf()
-
-          if vim.fn.getcwd() == vim.env.HOME then
-            require("telescope.builtin").oldfiles()
-          else
+          local bufnr = vim.api.nvim_get_current_buf()
+          local current_dir = vim.fn.getcwd()
+          local nvim_msg = "Neovim"
+          vim.api.nvim_buf_set_name(bufnr, nvim_msg)
+          if current_dir == "/Users/remote-dev/.config/nvim" then
             vim.cmd("Neotree filesystem float")
+          else
+            require("telescope.builtin").oldfiles()
           end
-
-          vim.schedule(function()
-            if vim.api.nvim_buf_is_valid(initial_buf)
-              and vim.api.nvim_buf_get_name(initial_buf) == ""
-              and vim.api.nvim_buf_line_count(initial_buf) <= 1
-              and vim.api.nvim_buf_get_lines(initial_buf, 0, 1, false)[1] == "" then
-              vim.api.nvim_buf_delete(initial_buf, { force = true })
-            end
-          end)
         end
       end,
     })
@@ -44,7 +37,7 @@ return {
     "MunifTanjim/nui.nvim",
   },
   keys = {
-    { "<leader>e", function() open_neotree() end, desc = "File Explorer" },
+    { "<leader>e",  function() open_neotree() end,                         desc = "File Explorer" },
     { "<leader>ac", function() open_neotree(vim.fn.stdpath("config")) end, desc = "Nvim Config" },
   },
   opts = {

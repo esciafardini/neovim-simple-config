@@ -57,6 +57,9 @@ return {
       },
       providers = {
         -- these providers don't work out of the box -- must specify
+        lsp = {
+          min_keyword_length = 3,  -- don't trigger LSP completion on short strings
+        },
         lazydev = {
           name = "Neovim Lua",
           module = "lazydev.integrations.blink",

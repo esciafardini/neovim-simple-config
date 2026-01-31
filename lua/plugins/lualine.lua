@@ -1,5 +1,4 @@
 local function is_obsidian_buffer(bufnr)
-  -- just save and close if it's obsidian (i dont' care)
   local file_name = vim.api.nvim_buf_get_name(bufnr)
   return file_name:find(vim.fn.expand("~") .. "/obsidian", 1, true)
 end

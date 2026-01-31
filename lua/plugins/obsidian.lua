@@ -2,13 +2,6 @@ return {
   "epwalsh/obsidian.nvim",
   version = "*",
   dependencies = { "nvim-lua/plenary.nvim" },
-  -- Only load for markdown files inside your vault
-  event = {
-    "BufReadPre " .. vim.fn.expand("~") .. "/obsidian/**.md",
-    "BufNewFile " .. vim.fn.expand("~") .. "/obsidian/**.md",
-  },
-  -- Also load when these commands are invoked
-  cmd = { "ObsidianToday", "ObsidianNew", "ObsidianQuickSwitch", "ObsidianSearch" },
   init = function()
     local function is_obsidian_file()
       return vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true)
@@ -28,26 +21,19 @@ return {
         end
       end,
     })
-
-    -- Persist fold state for obsidian files
-    vim.api.nvim_create_autocmd("BufWinLeave", {
-      pattern = vim.fn.expand("~") .. "/obsidian/**.md",
-      callback = function()
-        if is_obsidian_file() then
-          vim.cmd("silent! mkview")
-        end
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("BufWinEnter", {
-      pattern = vim.fn.expand("~") .. "/obsidian/**.md",
-      callback = function()
-        if is_obsidian_file() then
-          vim.cmd("silent! loadview")
-        end
-      end,
-    })
   end,
+  -- Only load for markdown files inside your vault
+  event = {
+    "BufReadPre " .. vim.fn.expand("~") .. "/obsidian/**.md",
+    "BufNewFile " .. vim.fn.expand("~") .. "/obsidian/**.md",
+  },
+  keys = {
+    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note" },
+    { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault" },
+    { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note" },
+    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks" },
+    { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" },
+    { "<leader>oy", "<cmd>ObsidianToday -1<cr>",    desc = "Yesterday's note" } },
   opts = function()
     local vault = vim.fn.expand("~") .. "/obsidian"
     return {
@@ -99,11 +85,4 @@ return {
       },
     }
   end,
-  keys = {
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note" },
-    { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault" },
-    { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note" },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks" },
-    { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" },
-    { "<leader>oy", "<cmd>ObsidianToday -1<cr>",    desc = "Yesterday's note" } },
 }

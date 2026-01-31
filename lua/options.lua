@@ -48,8 +48,7 @@ vim.keymap.set("n", "<leader>sr", ":%s/", { desc = "Search and replace" })
 vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
--- dashboard replica
-vim.keymap.del("n", "gc")
+vim.keymap.set('n', '<leader>r', ':set relativenumber!<CR>')
 
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})
@@ -65,6 +64,14 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.g.clojure_fuzzy_indent_patterns = vim.list_extend(existing,
       { "^dofor$", "^GET$", "^POST$", "^PUT$", "^PATCH$", "^DELETE$", "^ANY$" })
   end
+})
+
+-- Disable swap files for Obsidian vault (synced externally)
+vim.api.nvim_create_autocmd("BufReadPre", {
+  pattern = vim.fn.expand("~") .. "/obsidian/*",
+  callback = function()
+    vim.opt_local.swapfile = false
+  end,
 })
 
 -- Lisp bracket auto-pairing
@@ -89,3 +96,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank({ higroup = "YankHighlight", timeout = 1000 })
   end,
 })
+
+require('whitespace').setup()
+require('targets').setup()

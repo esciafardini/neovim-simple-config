@@ -3,7 +3,7 @@ return {
   dependencies = { "MunifTanjim/nui.nvim" },
   opts = {
     disabled_filetypes = { "gitsigns-blame" },
-    max_count = 1,
+    max_count = 2,
     disable_mouse = false,
     disabled_keys = {
       ["<Up>"] = { "n" },

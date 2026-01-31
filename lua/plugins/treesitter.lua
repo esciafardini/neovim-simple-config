@@ -1,4 +1,3 @@
----@diagnostic disable: missing-fields
 local function get_node()
   local node = vim.treesitter.get_node()
   if node then
@@ -11,48 +10,39 @@ return {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     config = function()
-      require 'nvim-treesitter.configs'.setup {
-        textobjects = {
-          select = {
-            enable = true,
-            lookahead = true,
-            keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-            },
-            selection_modes = {
-              ['@parameter.outer'] = 'v', -- charwise
-              ['@function.outer'] = 'V',  -- linewise
-              ['@class.outer'] = '<c-v>', -- blockwise
-            },
-            include_surrounding_whitespace = true,
+      require("nvim-treesitter-textobjects").setup {
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
           },
+          selection_modes = {
+            ['@parameter.outer'] = 'v',
+            ['@function.outer'] = 'V',
+            ['@class.outer'] = '<c-v>',
+          },
+          include_surrounding_whitespace = true,
         },
       }
     end
   },
   {
     "nvim-treesitter/nvim-treesitter",
-    event = "BufReadPre",
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = { "c", "clojure", "html", "javascript", "lua", "query", "ruby", "vim", "vimdoc" },
-        auto_install = true,
-        highlight = {
-          enable = true,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<leader>ss",    --scope select
-            node_incremental = "<leader>si",  --scope increase
-            node_decremental = "<leader>sd",  --scope decrease
-            scope_incremental = "<leader>sc", --scope creep
-          },
-        },
+      require('nvim-treesitter').install({ "c", "clojure", "html", "javascript", "lua", "query", "ruby", "vim", "vimdoc",
+        "csv" })
+
+      -- Enable treesitter highlighting for all filetypes
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function()
+          pcall(vim.treesitter.start)
+        end
       })
-      vim.keymap.set("n", "<leader>sn", get_node, { desc = "Get node" })
+
+      vim.keymap.set("n", "<leader>sn", get_node, { desc = "Get node type" })
     end,
   }
 }
