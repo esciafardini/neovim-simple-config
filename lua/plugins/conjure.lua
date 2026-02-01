@@ -20,22 +20,33 @@ local function connect_to_shadow_app()
     end)
 end
 
+local function connect_to_psql(url)
+  vim.g["conjure#client#sql#stdio#command"] = "psql " .. url
+  vim.cmd("ConjureSqlStop")
+  vim.defer_fn(function()
+    vim.cmd("ConjureSqlStart")
+  end, 500)
+end
+
 return {
   "Olical/conjure",
-  ft = { "clojure", "fennel", "python", "lua" },
+  ft = { "clojure", "fennel", "python", "lua", "sql" },
   init = function()
     vim.g["conjure#client#clojure#nrepl#connection#auto_repl#enabled"] = false
     vim.g["conjure#extract#tree_sitter#enabled"] = true
     vim.g["conjure#mapping#doc_word"] = "k" -- registers as <localleader>k
     vim.g["conjure#log#filetype"] = "clojure"
-    vim.g["conjure#filetype#sql"] = false   --use dadbod instead :)
-    vim.g["conjure#filetypes"] = { "clojure", "fennel", "python", "lua" }
-    vim.g["conjure#filetype_blacklist"] = { "sql" }
+    vim.g["conjure#filetypes"] = { "clojure", "fennel", "python", "lua", "sql" }
   end,
   keys = {
-    { "<leader>cs", ":ConjureConnect local.aclaimant.com 7000<cr>", ft = "clojure", desc = "Connect To Service" },
-    { "<leader>cj", ":ConjureConnect local.aclaimant.com 7001<cr>", ft = "clojure", desc = "Connect To Jobs" },
-    { "<leader>ca", ":ConjureConnect local.aclaimant.com 7002<cr>", ft = "clojure", desc = "Connect To Alerter" },
-    { "<leader>cS", connect_to_shadow_app,                          ft = "clojure", desc = "Connect To Shadow CLJS App" },
+    -- Clojure
+    { "<leader>cs",  ":ConjureConnect local.aclaimant.com 7000<cr>", ft = "clojure", desc = "Connect To Service" },
+    { "<leader>cj",  ":ConjureConnect local.aclaimant.com 7001<cr>", ft = "clojure", desc = "Connect To Jobs" },
+    { "<leader>ca",  ":ConjureConnect local.aclaimant.com 7002<cr>", ft = "clojure", desc = "Connect To Alerter" },
+    { "<leader>cS",  connect_to_shadow_app, ft = "clojure", desc = "Connect To Shadow CLJS App" },
+    -- SQL
+    { "<leader>cpl", function() connect_to_psql(vim.env.LOCAL_DB_URL) end, ft = "sql", desc = "SQL Local" },
+    { "<leader>cps", function() connect_to_psql(vim.env.STAGING_DB_URL) end, ft = "sql", desc = "SQL Staging" },
+    { "<leader>cpp", function() connect_to_psql(vim.env.PROD_DB_URL) end, ft = "sql", desc = "SQL Prod" },
   },
 }
