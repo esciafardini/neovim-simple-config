@@ -21,11 +21,13 @@ local function connect_to_shadow_app()
 end
 
 local function connect_to_psql(url)
-  vim.g["conjure#client#sql#stdio#command"] = "psql " .. url
-  vim.cmd("ConjureSqlStop")
-  vim.defer_fn(function()
-    vim.cmd("ConjureSqlStart")
-  end, 500)
+  return function()
+    vim.g["conjure#client#sql#stdio#command"] = "psql " .. url
+    vim.cmd("ConjureSqlStop")
+    vim.defer_fn(function()
+      vim.cmd("ConjureSqlStart")
+    end, 500)
+  end
 end
 
 return {
@@ -45,8 +47,8 @@ return {
     { "<leader>ca",  ":ConjureConnect local.aclaimant.com 7002<cr>", ft = "clojure", desc = "Connect To Alerter" },
     { "<leader>cS",  connect_to_shadow_app, ft = "clojure", desc = "Connect To Shadow CLJS App" },
     -- SQL
-    { "<leader>cpl", function() connect_to_psql(vim.env.LOCAL_DB_URL) end, ft = "sql", desc = "SQL Local" },
-    { "<leader>cps", function() connect_to_psql(vim.env.STAGING_DB_URL) end, ft = "sql", desc = "SQL Staging" },
-    { "<leader>cpp", function() connect_to_psql(vim.env.PROD_DB_URL) end, ft = "sql", desc = "SQL Prod" },
+    { "<leader>cpl", connect_to_psql(vim.env.LOCAL_DB_URL), ft = "sql", desc = "SQL Local" },
+    { "<leader>cps", connect_to_psql(vim.env.STAGING_DB_URL), ft = "sql", desc = "SQL Staging" },
+    { "<leader>cpp", connect_to_psql(vim.env.PROD_DB_URL), ft = "sql", desc = "SQL Staging" },
   },
 }

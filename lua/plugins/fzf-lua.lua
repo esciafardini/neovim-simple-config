@@ -2,6 +2,9 @@ return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
+    fzf_opts = {
+      ["--cycle"] = true,
+    },
     keymap = {
       fzf = {
         ["ctrl-j"] = "down",
