@@ -20,8 +20,7 @@ return {
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.fn.stdpath("config") .. "/snippets" } })
       end,
-    },
-    "kristijanhusak/vim-dadbod-completion",
+    }
   },
   version = "1.*",
   opts = {
@@ -50,11 +49,6 @@ return {
       -- default sources for blink
       default = { "buffer", "lsp", "path", "snippets", "lazydev" },
       -- overrides for sources for filetypes
-      per_filetype = {
-        sql = { "dadbod", "buffer" },
-        mysql = { "dadbod", "buffer" },
-        plsql = { "dadbod", "buffer" },
-      },
       providers = {
         -- these providers don't work out of the box -- must specify
         lsp = {
@@ -63,11 +57,6 @@ return {
         lazydev = {
           name = "Neovim Lua",
           module = "lazydev.integrations.blink",
-          score_offset = 100,
-        },
-        dadbod = {
-          name = "SQL",
-          module = "vim_dadbod_completion.blink",
           score_offset = 100,
         },
       },

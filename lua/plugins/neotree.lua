@@ -26,7 +26,7 @@ return {
           if current_dir == "/Users/remote-dev/.config/nvim" then
             vim.cmd("Neotree filesystem float")
           else
-            require("telescope.builtin").oldfiles()
+            vim.cmd("FzfLua files")
           end
         end
       end,

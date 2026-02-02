@@ -21,7 +21,7 @@ return {
 
     wk.add({
       { "<leader>c", group = "Conjure" },
-      { "<leader>f", group = "Telescope" },
+      { "<leader>f", group = "Lua FZF" },
       { "<leader>a", group = "Dashboard" },
       { "<leader>l", group = "LSP" },
       { "<leader>s", group = "Treesitter" },
