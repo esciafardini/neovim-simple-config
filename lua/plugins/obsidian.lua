@@ -7,16 +7,44 @@ return {
       return vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true)
     end
 
+    -- Yank visual selection as displayed (with conceal chars)
+    local function yank_as_displayed()
+      local start_line = vim.fn.line("'<")
+      local end_line = vim.fn.line("'>")
+      local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+
+      for i, line in ipairs(lines) do
+        lines[i] = line
+          :gsub("^%s*%- %[ %]%s*", "󰄱 ")
+          :gsub("^%s*%- %[x%]%s*", "󰄲 ")
+          :gsub("^%s*%- %[X%]%s*", "✅ ")
+          :gsub("^%s*%- %[Z%]%s*", "❌ ")
+      end
+
+      vim.fn.setreg("+", table.concat(lines, "\n"))
+      vim.notify("Yanked " .. #lines .. " lines (as displayed)", vim.log.levels.INFO)
+    end
+
+    vim.keymap.set("v", "<leader>yo", function()
+      -- Exit visual mode first to set '< and '> marks
+      local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+      vim.api.nvim_feedkeys(esc, "x", false)
+      vim.schedule(yank_as_displayed)
+    end, { desc = "Yank as displayed (obsidian)" })
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "markdown",
       callback = function()
         if is_obsidian_file() then
           vim.opt_local.conceallevel = 2
-          vim.opt_local.concealcursor = "nv"
           vim.opt_local.shiftwidth = 2
           vim.opt_local.tabstop = 2
           vim.opt_local.foldmethod = "indent"
-          vim.opt_local.foldlevel = 0
+          -- Fold on # too
+          vim.opt_local.foldignore = ""
+          -- don't conceal in INSERT mode:
+          vim.opt_local.concealcursor = "nv"
+          -- just show "6 lines..." instead of preview:
           vim.opt_local.foldtext = "(v:foldend - v:foldstart + 1) .. ' lines'"
         end
       end,
@@ -81,6 +109,12 @@ return {
         checkboxes = {
           [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
           ["x"] = { char = "󰄲", hl_group = "ObsidianDone" },
+          ["X"] = { char = "✅", hl_group = "ObsidianDone" },
+          ["Z"] = { char = "❌", hl_group = "ObsidianDone" },
+        },
+        hl_groups = {
+          ObsidianTodo = { fg = "#6b9a9e", bold = true },
+          ObsidianDone = { fg = "#5e8e8b" },
         },
       },
     }
