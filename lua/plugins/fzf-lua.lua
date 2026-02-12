@@ -2,6 +2,9 @@ return {
   "ibhagwan/fzf-lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   opts = {
+    oldfiles = {
+      include_current_session = true,
+    },
     fzf_opts = {
       ["--cycle"] = true,
     },
