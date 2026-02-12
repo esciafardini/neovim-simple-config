@@ -20,14 +20,11 @@ return {
       callback = function()
         if vim.fn.argc() == 0 then
           local bufnr = vim.api.nvim_get_current_buf()
-          local current_dir = vim.fn.getcwd()
-          local nvim_msg = "Neovim"
-          vim.api.nvim_buf_set_name(bufnr, nvim_msg)
-          if current_dir == "/Users/remote-dev/.config/nvim" then
-            vim.cmd("Neotree filesystem float")
-          else
-            vim.cmd("FzfLua files")
-          end
+          vim.bo[bufnr].buftype = "nofile"
+          vim.bo[bufnr].swapfile = false
+          vim.bo[bufnr].bufhidden = "wipe"
+          vim.api.nvim_buf_set_name(bufnr, "Neovim")
+          vim.cmd("Neotree filesystem float")
         end
       end,
     })
