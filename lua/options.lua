@@ -37,20 +37,20 @@ vim.opt.undofile = true
 vim.opt.virtualedit = "block"
 -- for obsidian to stfu
 vim.opt.conceallevel = 1
+vim.o.background = "dark"
 
 -- Keymaps
 vim.keymap.set("n", "c(", "f(ci(", { desc = "change inside next parens" })
-vim.keymap.set("i", "jk", "<Esc>", { noremap = false, desc = "Exit insert mode" })
-vim.keymap.set("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move block downwards" })
-vim.keymap.set("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move block upwards" })
+vim.keymap.set("v", "J", ":move '>+1<CR>gv", { desc = "Move block downwards" })
+vim.keymap.set("v", "K", ":move '<-2<CR>gv", { desc = "Move block upwards" })
 vim.keymap.set("n", "<C-b>", "<C-u>", { desc = "Halfscroll up" })
 vim.keymap.set("n", "<C-f>", "<C-d>", { desc = "Halfscroll down" })
 vim.keymap.set("n", "<leader>h", ":nohl<CR>", { desc = "Unhighlight" })
 vim.keymap.set("n", "<leader>sr", ":%s/", { desc = "Search and replace" })
-vim.keymap.set("n", "<leader>b", ":echo bufnr('%')<CR>", { desc = "Get Bufnr" })
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-h>", ":bprev<CR>", { desc = "Previous buffer" })
 vim.keymap.set('n', '<leader>r', ':set relativenumber!<CR>')
+vim.keymap.set('n', '<leader>S', ':set spell!<CR>')
 
 vim.api.nvim_create_user_command("Rtfm", "tab help toc", {})
 vim.api.nvim_create_user_command("Wq", "wq", {})
@@ -82,10 +82,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local paren_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
     for open, close in pairs(paren_pairs) do
-      vim.keymap.set("i", open, function()
-        local keys = vim.api.nvim_replace_termcodes(open .. close .. "<Left>", true, false, true)
-        vim.api.nvim_feedkeys(keys, "n", false)
-      end, { buffer = true })
+      vim.keymap.set("i", open, open .. close .. "<Left>")
     end
   end
 })
@@ -98,9 +95,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank({ higroup = "YankHighlight", timeout = 1000 })
   end,
 })
-
-require('whitespace').setup()
-require('targets').setup()
 
 vim.filetype.add({
   extension = {
@@ -121,3 +115,5 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "Load view (folds) when opening file",
   command = "silent! loadview"
 })
+
+require('whitespace').setup()
