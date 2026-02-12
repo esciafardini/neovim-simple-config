@@ -50,12 +50,7 @@ return {
     vim.keymap.set("n", "<leader>bo", function() close_buffers("other") end, { desc = "Close other buffers" })
   end,
   config = function()
-    local custom_powerline = require 'lualine.themes.powerline_dark'
-    custom_powerline.normal.a.fg = '#FFFFFF'
-    custom_powerline.normal.a.bg = '#1E3A2F'
-    custom_powerline.visual.c.bg = '#1E3A2F'
     require('lualine').setup({
-      options = { theme = custom_powerline },
       tabline = {
         lualine_a = {
           {
@@ -70,7 +65,21 @@ return {
       sections = {
         lualine_c = {
           'filename',
-          { function() return ' 🌜 ' end, padding = { left = 1, right = 0 } },
+          {
+            function()
+              local mode = vim.api.nvim_get_mode().mode
+              local moons = {
+                n = '🌕',
+                i = '🌝',
+                V = '🌑',
+                v = '🌚',
+                c = '💾',
+                R = '🔪',
+              }
+              return moons[mode] or '🌕'
+            end,
+            padding = { left = 1, right = 0 }
+          },
           {
             function()
               return vim.bo.filetype:match('gitsigns') and 'BLAME' or ''
