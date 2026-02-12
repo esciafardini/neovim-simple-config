@@ -52,7 +52,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 vim.diagnostic.config({
   virtual_text = true,
-  virtual_lines = true,
+  virtual_lines = false,
   update_in_insert = false,
 })
 
@@ -98,8 +98,25 @@ vim.lsp.config("clojure_lsp", {
   root_markers = { ".git", "deps.edn", "project.clj" },
   single_file_support = true,
   flags = {
-    debounce_text_changes = 500,    -- 500ms debounce (was 15s - too long causes stale state)
     allow_incremental_sync = false, -- send full doc, reduces race conditions
   },
 })
+
 vim.lsp.enable("clojure_lsp")
+
+--Python
+vim.lsp.config("basedpyright", {
+  filetypes = { "python" },
+  cmd = { "basedpyright-langserver", "--stdio" },
+  root_markers = { "pyproject.toml", "setup.py", "setup.cfg", ".git" },
+  single_file_support = true,
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "basic",
+      },
+    },
+  },
+})
+
+vim.lsp.enable("basedpyright")
