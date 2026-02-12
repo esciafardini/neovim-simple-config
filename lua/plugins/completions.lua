@@ -3,7 +3,7 @@ return {
   dependencies = {
     {
       "folke/lazydev.nvim",
-      ft = "lua",
+      lazy = false, -- ensure this is loaded to suppress "vim as global" and other irritations
       opts = {
         library = {
           { path = "${3rd}/luv/library", words = { "vim%.uv" } },
@@ -29,9 +29,10 @@ return {
     keymap = {
       preset = "default",
       ["<C-k>"] = { "fallback" }, -- keep digraphs around
-      ["<Tab>"] = { "snippet_forward", "accept", "fallback" }, -- snippet forward jumps to next position, accept accepts in blink
-      ["<C-b>"] = { "select_prev", "fallback" },
-      ["<C-n>"] = { "select_next", "fallback" },
+      -- match behavior of command mode:
+      ["<Tab>"] = { "snippet_forward", "select_next", "fallback" },
+      ["<S-Tab>"] = { "snippet_backward", "select_prev", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
     },
     appearance = {
       nerd_font_variant = "mono"
