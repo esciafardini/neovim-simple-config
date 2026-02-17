@@ -68,6 +68,14 @@ vim.api.nvim_create_autocmd("FileType", {
   end
 })
 
+-- Format SQL files with pg_format
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sql",
+  callback = function()
+    vim.keymap.set("n", "<leader>lf", ":%!pg_format -s 2 -<CR>", { buffer = true, desc = "Format SQL with pg_format" })
+  end,
+})
+
 -- Disable swap files for Obsidian vault (synced externally)
 vim.api.nvim_create_autocmd("BufReadPre", {
   pattern = vim.fn.expand("~") .. "/obsidian/*",
@@ -115,5 +123,26 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   desc = "Load view (folds) when opening file",
   command = "silent! loadview"
 })
+
+local function nav_args(direction, fallback)
+  if vim.fn.argc() == 0 then
+    vim.notify("No args")
+    return
+  end
+
+  local pass, fail = pcall(function() vim.cmd(direction) end)
+
+  if pass then
+    print("arg " .. direction)
+  else
+    if fail then
+      vim.cmd(fallback)
+      print("arg " .. fallback)
+    end
+  end
+end
+
+vim.keymap.set("n", "<leader>ah", function() nav_args("prev", "last") end, { desc = "Prev arg" })
+vim.keymap.set("n", "<leader>al", function() nav_args("next", "first") end, { desc = "Next arg" })
 
 require('whitespace').setup()

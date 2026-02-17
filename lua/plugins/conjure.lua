@@ -52,5 +52,6 @@ return {
     { "<leader>cpp", connect_to_psql(vim.env.PROD_DB_URL), ft = "sql", desc = "SQL Prod" },
     { "<leader>cpd", connect_to_psql(vim.env.COIN_DB_URL), ft = "sql", desc = "SQL Coin Dolphin (local)" },
     { "<leader>cpg", connect_to_psql(vim.env.GRIDER_DB_URL), ft = "sql", desc = "SQL Grider Tutorial (local)" },
+    { "<leader>cpa", connect_to_psql(vim.env.F1DB_URL), ft = "sql", desc = "SQL Art Of Postgres" },
   },
 }
