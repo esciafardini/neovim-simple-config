@@ -1,5 +1,7 @@
+local vault = vim.fn.expand("~") .. "/obsidian"
+
 return {
-  "epwalsh/obsidian.nvim",
+  "obsidian-nvim/obsidian.nvim",
   version = "*",
   dependencies = { "nvim-lua/plenary.nvim" },
   init = function()
@@ -15,10 +17,10 @@ return {
 
       for i, line in ipairs(lines) do
         lines[i] = line
-          :gsub("^%s*%- %[ %]%s*", "󰄱 ")
-          :gsub("^%s*%- %[x%]%s*", "󰄲 ")
-          :gsub("^%s*%- %[X%]%s*", "✅ ")
-          :gsub("^%s*%- %[Z%]%s*", "❌ ")
+            :gsub("^%s*%- %[ %]%s*", "󰄱 ")
+            :gsub("^%s*%- %[x%]%s*", "󰄲 ")
+            :gsub("^%s*%- %[X%]%s*", "✅ ")
+            :gsub("^%s*%- %[Z%]%s*", "❌ ")
       end
 
       vim.fn.setreg("+", table.concat(lines, "\n"))
@@ -50,76 +52,80 @@ return {
       end,
     })
   end,
-  -- Only load for markdown files inside your vault
-  event = {
-    "BufReadPre " .. vim.fn.expand("~") .. "/obsidian/**.md",
-    "BufNewFile " .. vim.fn.expand("~") .. "/obsidian/**.md",
-  },
+  ft = "markdown",
   keys = {
-    { "<leader>of", "<cmd>ObsidianQuickSwitch<cr>", desc = "Find note" },
-    { "<leader>os", "<cmd>ObsidianSearch<cr>",      desc = "Search vault" },
-    { "<leader>on", "<cmd>ObsidianNew<cr>",         desc = "New note" },
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>",   desc = "Backlinks" },
-    { "<leader>ot", "<cmd>ObsidianToday<cr>",       desc = "Today's note" },
-    { "<leader>oy", "<cmd>ObsidianToday -1<cr>",    desc = "Yesterday's note" } },
-  opts = function()
-    local vault = vim.fn.expand("~") .. "/obsidian"
-    return {
+    { "<leader>of", "<cmd>Obsidian quick_switch<cr>", desc = "Find note" },
+    { "<leader>os", "<cmd>Obsidian search<cr>",       desc = "Search vault" },
+    { "<leader>on", "<cmd>Obsidian new<cr>",          desc = "New note" },
+    { "<leader>ob", "<cmd>Obsidian backlinks<cr>",    desc = "Backlinks" },
+    { "<leader>ot", "<cmd>Obsidian today<cr>",        desc = "Today's note" },
+    { "<leader>oy", "<cmd>Obsidian yesterday<cr>",    desc = "Yesterday's note" },
+  },
+  config = function()
+    require("obsidian").setup({
+      legacy_commands = false,
       workspaces = {
         {
           name = "obsidian",
           path = vault,
         },
       },
-      -- Disable completion source to avoid slowdown
       completion = {
-        nvim_cmp = false,
         min_chars = 2,
       },
-      -- Optional: customize how links/notes work
-      notes_subdir = nil,
       new_notes_location = "current_dir",
-      -- Don't add frontmatter automatically
-      disable_frontmatter = true,
-      -- Use title as filename instead of timestamp
+      frontmatter = {
+        enabled = false,
+      },
       note_id_func = function(title)
         if title ~= nil then
-          -- Slugify: lowercase, spaces to dashes, remove special chars
-          return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+          return (title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""))
         else
-          -- Fallback if no title given
           return tostring(os.time())
         end
       end,
-      -- Templates
       templates = {
         folder = vault .. "/templates",
       },
-      -- Daily notes
       daily_notes = {
+        enabled = true,
         folder = "daily",
         template = "daily.md",
       },
-      -- Open URLs in browser
-      follow_url_func = function(url)
-        vim.fn.jobstart({ "open", url })
-      end,
-      -- UI: only checked and unchecked (nerd font)
+      checkbox = {
+        order = { " ", "x", "~", "!", ">" },
+      },
       ui = {
-        checkboxes = {
-          [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-          ["x"] = { char = "󰄲", hl_group = "ObsidianDone" },
-          ["X"] = { char = "✅", hl_group = "ObsidianDone" },
-          ["Z"] = { char = "❌", hl_group = "ObsidianDone" },
-          [">"] = { char = "", hl_group = "ObsidianRightArrow" },
-          ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-          ["!"] = { char = "", hl_group = "ObsidianImportant" },
+        enabled = true,
+        enable = true,
+        ignore_conceal_warn = false,
+        update_debounce = 200,
+        max_file_length = 5000,
+        checkbox = {
+          enabled = true,
+          create_new = true,
+          order = { " ", "~", "!", ">", "x" },
         },
+        bullets = { char = "•", hl_group = "ObsidianBullet" },
+        external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+        reference_text = { hl_group = "ObsidianRefText" },
+        highlight_text = { hl_group = "ObsidianHighlightText" },
+        tags = { hl_group = "ObsidianTag" },
+        block_ids = { hl_group = "ObsidianBlockID" },
         hl_groups = {
           ObsidianTodo = { fg = "#6b9a9e", bold = true },
           ObsidianDone = { fg = "#5e8e8b" },
+          ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
+          ObsidianTilde = { bold = true, fg = "#ff5370" },
+          ObsidianImportant = { bold = true, fg = "#d73128" },
+          ObsidianBullet = { bold = true, fg = "#89ddff" },
+          ObsidianRefText = { underline = true, fg = "#c792ea" },
+          ObsidianExtLinkIcon = { fg = "#c792ea" },
+          ObsidianTag = { italic = true, fg = "#89ddff" },
+          ObsidianBlockID = { italic = true, fg = "#89ddff" },
+          ObsidianHighlightText = { bg = "#75662e" },
         },
       },
-    }
+    })
   end,
 }

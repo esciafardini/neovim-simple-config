@@ -63,6 +63,7 @@ vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
+      diagnostics = { globals = { 'vim', 'print', 'pcall', 'pairs', 'ipairs' } },
       workspace = {
         library = {
           vim.env.VIMRUNTIME,
