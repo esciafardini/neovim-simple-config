@@ -9,31 +9,6 @@ return {
       return vim.fn.expand("%:p"):find(vim.fn.expand("~") .. "/obsidian", 1, true)
     end
 
-    -- Yank visual selection as displayed (with conceal chars)
-    local function yank_as_displayed()
-      local start_line = vim.fn.line("'<")
-      local end_line = vim.fn.line("'>")
-      local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-
-      for i, line in ipairs(lines) do
-        lines[i] = line
-            :gsub("^%s*%- %[ %]%s*", "󰄱 ")
-            :gsub("^%s*%- %[x%]%s*", "󰄲 ")
-            :gsub("^%s*%- %[X%]%s*", "✅ ")
-            :gsub("^%s*%- %[Z%]%s*", "❌ ")
-      end
-
-      vim.fn.setreg("+", table.concat(lines, "\n"))
-      vim.notify("Yanked " .. #lines .. " lines (as displayed)", vim.log.levels.INFO)
-    end
-
-    vim.keymap.set("v", "<leader>yo", function()
-      -- Exit visual mode first to set '< and '> marks
-      local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
-      vim.api.nvim_feedkeys(esc, "x", false)
-      vim.schedule(yank_as_displayed)
-    end, { desc = "Yank as displayed (obsidian)" })
-
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "markdown",
       callback = function()
@@ -85,7 +60,48 @@ return {
         end
       end,
       templates = {
-        folder = vault .. "/templates",
+        folder = "templates",
+        date_format = "%B %d, %Y",
+        time_format = "%H:%M",
+        substitutions = {
+          exercise = function()
+            local exercises = {
+              Monday = {
+                "- [ ] Water your plant!!!!",
+                "  - [ ] Kung Fu",
+              },
+              Wednesday = {
+                "- [ ] Gym for Pullups",
+                "  - [ ] Kung Fu",
+              },
+              Thursday = {
+                "- [ ] Water your plant!!!!",
+              },
+              Friday = {
+                "- [ ] Fast",
+              },
+              Saturday = {
+                "- [ ] Eat bad on weekends it's fine",
+              },
+              Sunday = {
+                "- [ ] Kettlebell (30 min)",
+                "  - [ ] Get back to good diet",
+              },
+            }
+            local day = os.date("%A")
+            local items = exercises[day] or { "" }
+            return table.concat(items, "\n")
+          end,
+          sacred_ted_time = function()
+            local creative = { Monday = true, Wednesday = true, Saturday = true }
+            local day = os.date("%A")
+            if creative[day] then
+              return "- [ ] Creative Time (5 mins)"
+            else
+              return "- [ ] Kung Fu Form (5 mins)"
+            end
+          end,
+        },
       },
       daily_notes = {
         enabled = true,

@@ -32,8 +32,8 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
-      require('nvim-treesitter').install({ "c", "clojure", "html", "javascript", "lua", "query", "ruby", "vim", "vimdoc",
-        "csv" })
+      require('nvim-treesitter').install({ "c", "clojure", "html", "javascript", "lua", "query", "ruby", "typescript",
+        "tsx", "vim", "vimdoc", "csv" })
 
       -- Enable treesitter highlighting for all filetypes
       vim.api.nvim_create_autocmd("FileType", {

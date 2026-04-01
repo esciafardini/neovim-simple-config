@@ -63,7 +63,11 @@ vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
-      diagnostics = { globals = { 'vim', 'print', 'pcall', 'pairs', 'ipairs' } },
+      diagnostics = {
+        globals = { 'vim', 'print', 'pcall', 'pairs', 'ipairs' },
+        undefined_global = false,
+        missing_parameters = false,
+      },
       workspace = {
         library = {
           vim.env.VIMRUNTIME,
@@ -95,7 +99,7 @@ vim.lsp.enable("ruby_lsp")
 -- Clojure LSP
 vim.lsp.config("clojure_lsp", {
   filetypes = { "clojure" },
-  cmd = { "clojure-lsp" },
+  cmd = { "/usr/local/bin/clojure-lsp" },
   root_markers = { ".git", "deps.edn", "project.clj" },
   single_file_support = true,
   flags = {
@@ -121,3 +125,22 @@ vim.lsp.config("basedpyright", {
 })
 
 vim.lsp.enable("basedpyright")
+
+--GO!
+vim.lsp.config("gopls", {
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  cmd = { "gopls" },
+  root_markers = { "go.mod", "go.work", ".git" },
+})
+
+vim.lsp.enable("gopls")
+
+-- JavaScript / TypeScript
+vim.lsp.config("ts_ls", {
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  cmd = { "typescript-language-server", "--stdio" },
+  root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+  single_file_support = true,
+})
+
+vim.lsp.enable("ts_ls")

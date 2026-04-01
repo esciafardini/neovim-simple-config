@@ -77,10 +77,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Disable swap files for Obsidian vault (synced externally)
+-- Auto-reload when changed by Obsidian app
 vim.api.nvim_create_autocmd("BufReadPre", {
   pattern = vim.fn.expand("~") .. "/obsidian/*",
   callback = function()
     vim.opt_local.swapfile = false
+    vim.opt_local.autoread = true
   end,
 })
 
