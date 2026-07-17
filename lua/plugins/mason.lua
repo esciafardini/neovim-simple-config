@@ -10,6 +10,7 @@ return {
       "basedpyright",
       "gopls",
       "typescript-language-server",
+      "clangd",
     }
 
     local registry = require("mason-registry")

@@ -99,7 +99,7 @@ vim.lsp.enable("ruby_lsp")
 -- Clojure LSP
 vim.lsp.config("clojure_lsp", {
   filetypes = { "clojure" },
-  cmd = { "/usr/local/bin/clojure-lsp" },
+  cmd = { "clojure-lsp" },
   root_markers = { ".git", "deps.edn", "project.clj" },
   single_file_support = true,
   flags = {
@@ -144,3 +144,13 @@ vim.lsp.config("ts_ls", {
 })
 
 vim.lsp.enable("ts_ls")
+
+-- C / C++
+vim.lsp.config("clangd", {
+  filetypes = { "c", "cpp", "objc", "objcpp" },
+  cmd = { "clangd" },
+  root_markers = { "compile_commands.json", "compile_flags.txt", ".git" },
+  single_file_support = true,
+})
+
+vim.lsp.enable("clangd")

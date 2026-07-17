@@ -35,9 +35,6 @@ vim.opt.splitright = true
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.virtualedit = "block"
--- for obsidian to stfu
-vim.opt.conceallevel = 1
-vim.o.background = "dark"
 
 -- Keymaps
 vim.keymap.set("n", "c(", "f(ci(", { desc = "change inside next parens" })
@@ -90,9 +87,10 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*" },
   callback = function()
+    if vim.bo.filetype == "c" then return end
     local paren_pairs = { ["("] = ")", ["["] = "]", ["{"] = "}" }
     for open, close in pairs(paren_pairs) do
-      vim.keymap.set("i", open, open .. close .. "<Left>")
+      vim.keymap.set("i", open, open .. close .. "<Left>", { buffer = true })
     end
   end
 })
@@ -103,6 +101,20 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank({ higroup = "YankHighlight", timeout = 1000 })
+  end,
+})
+
+-- Fiction writing mode for markdown/text
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.spell = false
+    vim.opt_local.textwidth = 0
+    -- navigate visual lines
+    vim.keymap.set("n", "j", "gj", { buffer = true })
+    vim.keymap.set("n", "k", "gk", { buffer = true })
   end,
 })
 

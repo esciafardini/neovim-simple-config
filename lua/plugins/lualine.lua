@@ -1,8 +1,3 @@
-local function is_obsidian_buffer(bufnr)
-  local file_name = vim.api.nvim_buf_get_name(bufnr)
-  return file_name:find(vim.fn.expand("~") .. "/obsidian", 1, true)
-end
-
 -- Close buffers by direction
 local function close_buffers(direction)
   local current_bufnr = vim.api.nvim_get_current_buf()
@@ -19,15 +14,9 @@ local function close_buffers(direction)
         (direction == "left" and bufnr < current_bufnr) or
         (direction == "right" and bufnr > current_bufnr) or
         (direction == "other" and bufnr ~= current_bufnr)
-    local is_obsidian_file = is_obsidian_buffer(bufnr)
     local has_been_modified = vim.bo[bufnr].modified
 
     if targeted_for_closing and not has_been_modified then
-      vim.api.nvim_buf_delete(bufnr, {})
-      closed = closed + 1
-    elseif targeted_for_closing and is_obsidian_file and has_been_modified then
-      vim.api.nvim_buf_call(bufnr, function() vim.cmd('write') end)
-      saved = saved + 1
       vim.api.nvim_buf_delete(bufnr, {})
       closed = closed + 1
     elseif targeted_for_closing and has_been_modified then

@@ -55,12 +55,6 @@ return {
       local gitsigns = require("gitsigns")
 
       gitsigns.setup({
-        on_attach = function(bufnr)
-          local filepath = vim.api.nvim_buf_get_name(bufnr)
-          if filepath:find(vim.fn.expand("~") .. "/obsidian", 1, true) then
-            return false
-          end
-        end,
         signs = {
           add          = { text = "|" },
           change       = { text = "|" },
