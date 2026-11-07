@@ -20,6 +20,10 @@ vim.opt.relativenumber = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
+-- $VIMRUNTIME/ftplugin/markdown.vim setlocals 4-space indent unless this is off
+vim.g.markdown_recommended_style = 0
+-- Same for $VIMRUNTIME/ftplugin/python.vim (PEP 8 4-space)
+vim.g.python_recommended_style = 0
 -- Search (case-insensitive unless there are capital letters)
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
@@ -160,3 +164,12 @@ vim.keymap.set("n", "<leader>ah", function() nav_args("prev", "last") end, { des
 vim.keymap.set("n", "<leader>al", function() nav_args("next", "first") end, { desc = "Next arg" })
 
 require('whitespace').setup()
+
+-- Terminal: <C-w> window commands work from terminal mode
+vim.keymap.set("t", "<C-w>", [[<C-\><C-n><C-w>]], { desc = "Window command from terminal" })
+
+-- Terminal: always enter insert mode when focusing a terminal window
+vim.api.nvim_create_autocmd({ "TermOpen", "BufEnter", "WinEnter" }, {
+  pattern = "term://*",
+  callback = function() vim.cmd("startinsert") end,
+})

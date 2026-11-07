@@ -60,20 +60,14 @@ vim.diagnostic.config({
 vim.lsp.config('lua_ls', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
+  root_markers = { '.luarc.json', '.git' },
   settings = {
     Lua = {
       runtime = { version = 'LuaJIT' },
       diagnostics = {
-        globals = { 'vim', 'print', 'pcall', 'pairs', 'ipairs' },
-        undefined_global = false,
-        missing_parameters = false,
+        globals = { 'vim', 'require', 'print', 'pcall', 'pairs', 'ipairs' },
       },
-      workspace = {
-        library = {
-          vim.env.VIMRUNTIME,
-          vim.fn.stdpath('data'),
-        },
-      },
+      -- workspace.library is intentionally unset -- lazydev.nvim manages it
     },
   },
 })
@@ -101,7 +95,6 @@ vim.lsp.config("clojure_lsp", {
   filetypes = { "clojure" },
   cmd = { "clojure-lsp" },
   root_markers = { ".git", "deps.edn", "project.clj" },
-  single_file_support = true,
   flags = {
     allow_incremental_sync = false, -- send full doc, reduces race conditions
   },
@@ -114,11 +107,13 @@ vim.lsp.config("basedpyright", {
   filetypes = { "python" },
   cmd = { "basedpyright-langserver", "--stdio" },
   root_markers = { "pyproject.toml", "setup.py", "setup.cfg", ".git" },
-  single_file_support = true,
   settings = {
     basedpyright = {
       analysis = {
-        typeCheckingMode = "basic",
+        typeCheckingMode = "off",
+        diagnosticSeverityOverrides = {
+          reportUndefinedVariable = "error",
+        },
       },
     },
   },
@@ -140,7 +135,6 @@ vim.lsp.config("ts_ls", {
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   cmd = { "typescript-language-server", "--stdio" },
   root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
-  single_file_support = true,
 })
 
 vim.lsp.enable("ts_ls")
@@ -150,7 +144,43 @@ vim.lsp.config("clangd", {
   filetypes = { "c", "cpp", "objc", "objcpp" },
   cmd = { "clangd" },
   root_markers = { "compile_commands.json", "compile_flags.txt", ".git" },
-  single_file_support = true,
 })
 
 vim.lsp.enable("clangd")
+
+-- Jinja templates named .js
+--
+-- Some repos generate JavaScript from Jinja and keep the .js extension, e.g.
+-- cube_cloud's generation/templates/*.js. Those files contain `{%- set ... %}`
+-- and `{#- ... -#}` blocks, which are not JavaScript, so ts_ls reports a syntax
+-- error on essentially every line and buries any real diagnostic.
+--
+-- Detach ts_ls from such buffers rather than changing filetype, so JavaScript
+-- syntax highlighting and treesitter still work -- only the bogus diagnostics go.
+-- Detection is by CONTENT, not path, so it covers any template anywhere.
+local function looks_like_jinja(buf)
+  for _, line in ipairs(vim.api.nvim_buf_get_lines(buf, 0, 80, false)) do
+    if line:match("{%%%-?%s") or line:match("{#") then
+      return true
+    end
+  end
+  return false
+end
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(event)
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    if not client or client.name ~= "ts_ls" then
+      return
+    end
+    if not looks_like_jinja(event.buf) then
+      return
+    end
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(event.buf) then
+        vim.lsp.buf_detach_client(event.buf, client.id)
+        vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(client.id), event.buf)
+      end
+    end)
+  end,
+})

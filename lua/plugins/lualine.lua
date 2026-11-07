@@ -17,7 +17,7 @@ local function close_buffers(direction)
     local has_been_modified = vim.bo[bufnr].modified
 
     if targeted_for_closing and not has_been_modified then
-      vim.api.nvim_buf_delete(bufnr, {})
+      vim.api.nvim_buf_delete(bufnr, { force = vim.bo[bufnr].buftype == "terminal" })
       closed = closed + 1
     elseif targeted_for_closing and has_been_modified then
       skipped = skipped + 1

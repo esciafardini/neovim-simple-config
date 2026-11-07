@@ -49,8 +49,16 @@ return {
     sources = {
       -- default sources for blink
       default = { "buffer", "lsp", "path", "snippets", "lazydev" },
+      per_filetype = {
+        sql = { "dadbod", "snippets", "buffer" },
+      },
       -- overrides for sources for filetypes
       providers = {
+        dadbod = {
+          name = "Dadbod",
+          module = "vim_dadbod_completion.blink",
+          score_offset = 100,
+        },
         -- these providers don't work out of the box -- must specify
         lsp = {
           min_keyword_length = 3,  -- don't trigger LSP completion on short strings

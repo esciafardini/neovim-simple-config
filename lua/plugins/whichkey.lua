@@ -26,6 +26,7 @@ return {
       { "<leader>l", group = "LSP" },
       { "<leader>s", group = "Treesitter" },
       { "<leader>g", group = "Git" },
+      { "<leader>d", group = "Debug" },
 
       -- Fold commands (z)
       { "z", group = "Folds" },

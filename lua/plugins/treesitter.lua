@@ -32,13 +32,15 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     config = function()
-      require('nvim-treesitter').install({ "c", "clojure", "html", "javascript", "lua", "query", "ruby", "typescript",
+      require('nvim-treesitter').install({ "c", "clojure", "html", "javascript", "lua", "python", "query", "ruby", "typescript",
         "tsx", "vim", "vimdoc", "csv" })
 
-      -- Enable treesitter highlighting for all filetypes
+      -- Enable treesitter highlighting; csv/tsv keep built-in per-column syntax
       vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          pcall(vim.treesitter.start)
+        callback = function(args)
+          if args.match ~= "csv" and args.match ~= "tsv" then
+            pcall(vim.treesitter.start)
+          end
         end
       })
 
